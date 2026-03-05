@@ -477,3 +477,38 @@ export const ScholarIcon = ({ className, ...rest }) => (
     />
   </svg>
 );
+
+// 1. Chip/Circuit icon for Advanced Electronics
+export const ProcessorIcon = ({ className, ...rest }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={`w-full h-auto ${className}`} {...rest}>
+    <path d="M15 9H9v6h6V9zm-2 4h-2v-2h2v2zm8-2V9h-2V7c0-1.1-.9-2-2-2h-2V3h-2v2h-2V3H9v2H7c-1.1 0-2 .9-2 2v2H3v2h2v2H3v2h2v2c0 1.1.9 2 2 2h2v2h2v-2h2v2h2v-2h2c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2zm-4 6H7V7h10v10z"/>
+  </svg>
+);
+
+// 2. High-Voltage/Power System (Energy & Sustainability)
+export const EnergyIcon = ({ className, ...rest }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`w-full h-auto ${className}`} {...rest}>
+    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+  </svg>
+);
+
+// 3. Atom/Physics icon for Fundamentals
+export const AtomIcon = ({ className, ...rest }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={`w-full h-auto ${className}`} {...rest}>
+    <circle cx="12" cy="12" r="2" fill="currentColor"></circle>
+    <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(45 12 12)"></ellipse>
+    <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(-45 12 12)"></ellipse>
+  </svg>
+);
+
+// 4. Brain/Neural icon for Machine Learning
+export const NeuralIcon = ({ className, ...rest }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={`w-full h-auto ${className}`} {...rest}>
+    <circle cx="18" cy="12" r="2"></circle>
+    <circle cx="6" cy="7" r="2"></circle>
+    <circle cx="6" cy="17" r="2"></circle>
+    <circle cx="12" cy="7" r="2"></circle>
+    <circle cx="12" cy="17" r="2"></circle>
+    <path d="M8 7h2M8 17h2M14 7l2.5 3.5M14 17l2.5-3.5M8 8l2.5 7.5M8 16l2.5-7.5" opacity="0.4"></path>
+  </svg>
+);
