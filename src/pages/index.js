@@ -51,14 +51,14 @@ export default function Home() {
                 href="/dummy.pdf" 
                 target="_blank"
                 className='flex items-center 
-                bg-[rgb(var(--foreground-rgb))] !text-white
+                bg-transparent 
+                text-[rgb(var(--foreground-rgb))]
                 p-2.5 px-6 rounded-lg text-lg font-semibold 
-                hover:!bg-white hover:!text-[rgb(var(--foreground-rgb))] 
-                border-2 border-solid border-transparent 
-                hover:border-[rgb(var(--foreground-rgb))] transition-all'
+                border-2 border-solid border-[rgb(var(--foreground-rgb))] 
+                transition-all duration-300'
                 download={true}
               >
-                Resume <LinkArrow className="w-6 ml-2"/>
+                Resume <LinkArrow className="w-6 ml-2 fill-current"/>
               </Link>
               <Link 
                 href="mailto:amin.isazadeh@tamu.edu" 
