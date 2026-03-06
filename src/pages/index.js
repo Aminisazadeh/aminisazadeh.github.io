@@ -46,7 +46,7 @@ export default function Home() {
               intelligent surfaces—to build a more efficient and sustainable future.
             </p>
 
-            <div className='flex items-center self-start mt-2 gap-6'>
+            <div className='flex items-center self-center md:self-start mt-2 gap-6'>
               <Link 
                 href="/dummy.pdf" 
                 target="_blank"

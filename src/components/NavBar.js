@@ -2,8 +2,9 @@ import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/router";
 import Logo from "./Logo";
-import { GithubIcon, LinkedInIcon, ScholarIcon } from "./Icons"; // Swapped Twitter for Scholar
+import { GithubIcon, LinkedInIcon, MoonIcon, ScholarIcon, SunIcon } from "./Icons"; // Swapped Twitter for Scholar
 import { motion } from "framer-motion";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const CustomLink = ({ href, title, className = "" }) => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const CustomLink = ({ href, title, className = "" }) => {
 };
 
 export default function NavBar() {
+
   return (
     <header className="w-full px-8 py-8 flex items-center justify-between relative font-bold">
       <nav className="flex items-center gap-4">
@@ -71,6 +73,8 @@ export default function NavBar() {
         >
           <GithubIcon />
         </motion.a>
+
+        <ThemeSwitcher />
       </nav>
     </header>
   );
