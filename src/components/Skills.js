@@ -79,7 +79,7 @@ const Skills = () => {
   return (
     <div className='w-full flex flex-col items-center justify-center py-2'>
       <h2 className='font-bold text-8xl mb-2 w-full text-center'>
-        <AnimatedText text="Specialized Expertise" className='text-6xl mb-4' /></h2>
+        <AnimatedText text="Specialized Expertise" className='mb-4' /></h2>
       
       <div className='w-full h-[700px] relative flex items-center justify-center rounded-full'
            style={{ 
