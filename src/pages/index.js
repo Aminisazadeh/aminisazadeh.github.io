@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import { ProcessorIcon, EnergyIcon, AtomIcon, NeuralIcon, LinkArrow } from "../components/Icons";
 import Link from "next/link";
+import AnimatedText from '@/components/AnimatedText';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,12 +28,8 @@ export default function Home() {
           />
           
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
-            <div className="w-full">
-              <h1 className={`${inter.className} text-3xl font-bold mb-2`}>
-                Bridging&nbsp;Physics&nbsp;with&nbsp;Intelligent&nbsp;Design
-              </h1>
-              
-              {/* Full-length Separator */}
+            <div>
+              <AnimatedText text="Bridging Physics with Intelligent Design" className='text-3xl'/>
               <div className="w-full h-[4px] bg-zinc-600 mb-6 opacity-50"></div>
             </div>
 
