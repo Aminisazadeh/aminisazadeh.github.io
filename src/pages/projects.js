@@ -13,6 +13,8 @@ import proj_3 from "../../public/gifs/physics_fundamentals.png"
 import proj_4 from "../../public/gifs/machine_learning.png"
 
 
+const FramerImage = motion(Image);
+
 const FeaturedProject = ({ type, title, summary, tools, img, link, github }) => {
   return (
     <motion.article
@@ -28,12 +30,13 @@ const FeaturedProject = ({ type, title, summary, tools, img, link, github }) => 
         className="w-full lg:w-1/2 cursor-pointer overflow-hidden rounded-lg"
       >
         <div className="relative w-full h-80 lg:h-140 rounded-lg bg-black/5 dark:bg-white/5">
-          <Image
+          <FramerImage
             src={img}
             alt={title}
             fill
             className="object-contain p-2"
             priority
+            whileHover={{scale:1.05}} transition={{duration:0.2}}
           />
         </div>
       </Link>
@@ -174,11 +177,12 @@ const FeaturedProject_reverse = ({ type, title, summary, tools, img, link, githu
         className="w-full lg:w-1/2 cursor-pointer overflow-hidden rounded-lg"
       >
         <div className="relative w-full h-80 lg:h-160 rounded-lg bg-black/5 dark:bg-white/5">
-          <Image
+          <FramerImage
             src={img}
             alt={title}
             fill
             className="object-contain p-2"
+            whileHover={{scale:1.05}} transition={{duration:0.2}}
           />
         </div>
       </Link>
