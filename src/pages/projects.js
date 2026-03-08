@@ -6,7 +6,6 @@ import Image from "next/image"
 import Link from "next/link"
 import React from 'react'
 import { motion } from "framer-motion"
-import photo from "../../public/images/profile/personal_photo_artistic.png"
 import proj_1 from "../../public/gifs/advanced_electronics.png"
 import proj_2 from "../../public/gifs/energy_sustainability.png"
 import proj_3 from "../../public/gifs/physics_fundamentals.png"
@@ -204,7 +203,7 @@ const projects = () => {
           <AnimatedText text="Insight Transcends Innovation!" className='text-4xl md:text-6xl mb-16 dark:text-light text-center' />
 
           <div className="grid grid-cols-12 gap-y-16 lg:gap-24">
-            <div className="col-span-12">
+            <div id="advanced-electronics" className="col-span-12">
               <FeaturedProject
                 title="Advanced Electronics (HHF)"
                 img={proj_1}
@@ -247,7 +246,7 @@ const projects = () => {
               />
             </div>
 
-            <div className="col-span-12">
+            <div id="energy-sustainability" className="col-span-12">
               <FeaturedProject_reverse
                 title="Energy and Sustainability"
                 img={proj_2}
@@ -284,7 +283,7 @@ const projects = () => {
               />
             </div>
 
-            <div className="col-span-12">
+            <div id="physics-fundamentals" className="col-span-12">
               <FeaturedProject
                 title="Physics Fundamentals"
                 img={proj_3}
@@ -334,7 +333,7 @@ const projects = () => {
               />
             </div>
 
-            <div className="col-span-12">
+            <div id="machine-learning-ai" className="col-span-12">
               <FeaturedProject_reverse
                 title="Machine Learning and AI"
                 img={proj_4}

@@ -40,7 +40,7 @@ export default function NavBar() {
       <nav className="flex items-center justify-center flex-wrap gap-6">
         {/* Google Scholar Icon */}
         <motion.a 
-          href="https://scholar.google.com/" 
+          href="https://scholar.google.com/citations?user=uwHOZTkAAAAJ&hl=en/" 
           target="_blank" 
           rel="noreferrer"
           className="w-6 text-[rgb(var(--foreground-rgb))]"
@@ -52,7 +52,7 @@ export default function NavBar() {
 
         {/* LinkedIn Icon */}
         <motion.a 
-          href="https://www.linkedin.com/" 
+          href="https://www.linkedin.com/in/aminisazadeh/" 
           target="_blank" 
           rel="noreferrer"
           className="w-6"

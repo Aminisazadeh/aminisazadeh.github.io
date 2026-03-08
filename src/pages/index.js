@@ -57,7 +57,7 @@ export default function Home() {
               >
                 Resume <LinkArrow className="w-6 ml-2 fill-current"/>
               </Link>
-              <Link 
+              <Link
                 href="mailto:amin.isazadeh@tamu.edu" 
                 target="_blank" 
                 className="ml-4 text-lg font-medium capitalize text-[rgb(var(--foreground-rgb))] !underline underline-offset-8 decoration-[2px] hover:opacity-70 transition-all"
@@ -69,61 +69,41 @@ export default function Home() {
         </div>
         
         <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="/projects#advanced-electronics" className={styles.card}>
             <h2 className={`${inter.className} flex items-center gap-2 justify-center`}>
               <ProcessorIcon className="!w-7" /> Advanced Electronics
             </h2>
             <p className={`${inter.className} text-center`}>
               Thermal management for 2D and 3D integrated circuits using&nbsp;microchannels.
             </p>
-          </a>
+          </Link>
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="/projects#energy-sustainability" className={styles.card}>
             <h2 className={`${inter.className} flex items-center gap-2 justify-center`}>
               <EnergyIcon className="!w-7 text-green-500" /> Energy and Sustainability
             </h2>
             <p className={`${inter.className} text-center`}>
               Optimizing data center cooling and evaluating energy commissioning efficiency.
             </p>
-          </a>
+          </Link>
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="/projects#physics-fundamentals" className={styles.card}>
             <h2 className={`${inter.className} flex items-center gap-2 justify-center`}>
               <AtomIcon className="!w-7 text-blue-400" /> Physics Fundamentals
             </h2>
             <p className={`${inter.className} text-center`}>
               Studying deformable particle dynamics, Molecular Dynamics, and Quantum Mechanics.
             </p>
-          </a>
+          </Link>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="/projects#machine-learning-ai" className={styles.card}>
             <h2 className={`${inter.className} flex items-center gap-2 justify-center`}>
               <NeuralIcon className="!w-7 text-purple-500" /> Machine Learning and AI
             </h2>
             <p className={`${inter.className} text-center`}>
               Applying FDD, PINNs, and Quantum Algorithms to optimize complex systems.
             </p>
-          </a>
+          </Link>
         </div>
       </main>
     </>
