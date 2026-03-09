@@ -3,20 +3,21 @@ import React, { useRef } from 'react'
 import LiIcon from './LiIcon'
 import AnimatedText from './AnimatedText';
 
+
 const Details = ({type, time, place, info, subInfo}) => {
     const ref = useRef(null);
     return (
-        <li ref={ref} className='my-8 first:mt-0 last:mb-0 w-[60%] mx-auto flex flex-col items-start justify-between'>
+        <li ref={ref} className='my-8 first:mt-0 last:mb-0 w-[70%] mx-auto flex flex-col items-start justify-between'>
             <LiIcon reference={ref}/>
             <motion.div initial={{y:50}} whileInView={{y:0}} transition={{duration:0.5, type:"spring"}}>
-                <h3 className='capitalize font-bold text-2xl'> {type} </h3>
-                <span className='capitalize font-medium text-[rgb(var(--foreground-rgb))]/75'>
+                <h3 className='capitalize font-bold text-lg sm:text-xl md:text-2xl'> {type} </h3>
+                <span className='capitalize font-medium text-sm sm:text-base text-[rgb(var(--foreground-rgb))]/75'>
                     {time} | {place}
                 </span>
-                <p className='font-bold w-full mt-2 text-pink-600/80'>
+                <p className='font-bold w-full mt-2 text-sm sm:text-base text-pink-600/80'>
                     {subInfo}
                 </p>
-                <p className='font-medium w-full mt-1'>
+                <p className='font-medium w-full mt-1 text-sm sm:text-base'>
                     {info}
                 </p>
             </motion.div>
@@ -35,7 +36,7 @@ const Education = () => {
 
     return (
         <div className='my-24'>
-            <h2 className='font-bold text-8xl mb-24 w-full text-center'>
+            <h2 className='font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mb-12 sm:mb-16 md:mb-24 w-full text-center'>
                 <AnimatedText text="Education" />
             </h2>
 

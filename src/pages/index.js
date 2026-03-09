@@ -45,7 +45,8 @@ export default function Home() {
 
             <div className='flex items-center self-center md:self-start mt-2 gap-6'>
               <Link 
-                href="/dummy.pdf" 
+                // href="/dummy.pdf"
+                href="https://www.linkedin.com/in/aminisazadeh/"
                 target="_blank"
                 className='flex items-center 
                 bg-transparent 
@@ -53,7 +54,7 @@ export default function Home() {
                 p-2.5 px-6 rounded-lg text-lg font-semibold 
                 border-2 border-solid border-[rgb(var(--foreground-rgb))] 
                 transition-all duration-300'
-                download={true}
+                // download={true}
               >
                 Resume <LinkArrow className="w-6 ml-2 fill-current"/>
               </Link>

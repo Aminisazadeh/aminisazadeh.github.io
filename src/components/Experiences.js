@@ -7,19 +7,19 @@ import AnimatedText from './AnimatedText';
 const Details = ({position, company, companylink, time, address, work}) => {
     const ref = useRef(null);
     return (
-        <li ref={ref} className='my-8 first:mt-0 last:mb-0 w-[80%] mx-auto flex flex-col items-start justify-between'>
+        <li ref={ref} className='my-8 first:mt-0 last:mb-0 w-[70%] sm:w-[80%] mx-auto flex flex-col items-start justify-between'>
             <LiIcon reference={ref}/>
             <motion.div initial={{y:50}} whileInView={{y:0}} transition={{duration:0.5, type:"spring"}}>
-                <h3 className='capitalize font-bold text-2xl text-[rgb(var(--foreground-rgb))]'> 
+                <h3 className='capitalize font-bold text-lg sm:text-xl md:text-2xl text-[rgb(var(--foreground-rgb))]'> 
                     {position}&nbsp;
-                    <a href={companylink} target='_blank' className='!text-pink-600 capitalize'>
+                    <a href={companylink} target='_blank' rel='noreferrer' className='!text-pink-600 capitalize'>
                         {company ? `@${company}` : ""}
                     </a>
                 </h3>
-                <span className='capitalize font-medium text-[rgb(var(--foreground-rgb))]/75'>
+                <span className='capitalize font-medium text-sm sm:text-base text-[rgb(var(--foreground-rgb))]/75'>
                     {time} | {address}
                 </span>
-                <div className='font-medium w-full mt-2 text-[rgb(var(--foreground-rgb))] whitespace-pre-line'>
+                <div className='font-medium w-full mt-2 text-sm sm:text-base text-[rgb(var(--foreground-rgb))] whitespace-pre-line'>
                     {work}
                 </div>
             </motion.div>
@@ -39,14 +39,14 @@ const Experiences = () => {
 
     return (
         <div className='my-24'>
-            <h2 className='font-bold text-8xl mb-24 w-full text-center'>
+            <h2 className='font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mb-12 sm:mb-16 md:mb-24 w-full text-center'>
                 <AnimatedText text="Experience" />
             </h2>
 
-            <div ref={ref} className='w-[85%] mx-auto relative'>
+            <div ref={ref} className='w-[85%] mx-auto relative pb-30'>
                 <motion.div 
                     style={{scaleY: scrollYProgress}}
-                    className='absolute left-9 top-0 w-[4px] h-full bg-[rgb(var(--foreground-rgb))] origin-top'
+                    className='absolute left-9 top-0 bottom-0 w-[4px] bg-[rgb(var(--foreground-rgb))] origin-top'
                 />
                 
                 <ul className='w-full flex flex-col items-start justify-between ml-4'>
