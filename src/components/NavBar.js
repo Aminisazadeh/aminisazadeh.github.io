@@ -53,7 +53,7 @@ const MobileNavLink = ({ href, title, onClick }) => {
 const HamburgerMenu = ({ isOpen, toggle }) => {
   return (
     <button
-      className="flex flex-col justify-center items-center md:hidden w-10 h-10 z-50"
+      className="flex flex-col justify-center items-center md:hidden w-10 h-10 z-50 bg-transparent border-none outline-none appearance-none"
       onClick={toggle}
       aria-label="Toggle navigation menu"
       type="button"
@@ -97,6 +97,8 @@ export default function NavBar() {
               <CustomLink href="/" title="Home" />
               <CustomLink href="/about" title="About" />
               <CustomLink href="/projects" title="Projects" />
+              <CustomLink href="/teaching" title="Teaching" />
+              <CustomLink href="/service" title="Services" />
               <CustomLink href="/articles" title="Articles" />
             </nav>
           </div>
@@ -155,12 +157,14 @@ export default function NavBar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.22 }}
-            className="md:hidden absolute top-full left-0 w-full bg-white dark:bg-zinc-900 border-b border-zinc-300 dark:border-zinc-700 shadow-lg"
+            className="md:hidden absolute top-full left-0 w-full bg-[rgb(var(--background-start-rgb))] border-b border-zinc-300 dark:border-zinc-700 shadow-lg"
           >
             <div className="flex flex-col items-center gap-6 py-6">
               <MobileNavLink href="/" title="Home" onClick={closeMenu} />
               <MobileNavLink href="/about" title="About" onClick={closeMenu} />
               <MobileNavLink href="/projects" title="Projects" onClick={closeMenu} />
+              <MobileNavLink href="/teaching" title="Teaching" onClick={closeMenu} />
+              <MobileNavLink href="/service" title="Services" onClick={closeMenu} />
               <MobileNavLink href="/articles" title="Articles" onClick={closeMenu} />
 
               <div className="flex items-center gap-6 pt-2">

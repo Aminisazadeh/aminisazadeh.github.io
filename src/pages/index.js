@@ -5,6 +5,8 @@ import styles from '@/styles/Home.module.css'
 import { ProcessorIcon, EnergyIcon, AtomIcon, NeuralIcon, LinkArrow } from "../components/Icons";
 import Link from "next/link";
 import AnimatedText from '@/components/AnimatedText';
+import Honors from '@/components/Honors';
+import ServiceHighlights from '@/components/ServiceHighlights';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -105,6 +107,14 @@ export default function Home() {
               Applying FDD, PINNs, and Quantum Algorithms to optimize complex systems.
             </p>
           </Link>
+        </div>
+
+        <div className="w-full mt-16">
+          <Honors variant="featured" />
+        </div>
+
+        <div className="w-full mt-16">
+          <ServiceHighlights />
         </div>
       </main>
     </>
