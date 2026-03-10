@@ -3,6 +3,7 @@ import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React from 'react'
 import { motion } from 'framer-motion'
+import TransitionEffect from '@/components/TransitionEffect'
 
 const TeachingCard = ({ course, role, term, place, bullets }) => {
   return (
@@ -63,6 +64,8 @@ const Teaching = () => {
           content="Teaching and mentorship experience of Amin Isazadeh in thermodynamics, heat transfer, and engineering education."
         />
       </Head>
+
+      <TransitionEffect />
 
       <main className="w-full flex flex-col items-center justify-center">
         <Layout className="pt-16">

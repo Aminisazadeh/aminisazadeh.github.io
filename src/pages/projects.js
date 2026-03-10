@@ -10,6 +10,7 @@ import proj_1 from "../../public/gifs/advanced_electronics.png"
 import proj_2 from "../../public/gifs/energy_sustainability.png"
 import proj_3 from "../../public/gifs/physics_fundamentals.png"
 import proj_4 from "../../public/gifs/machine_learning.png"
+import TransitionEffect from "@/components/TransitionEffect"
 
 
 const FramerImage = motion(Image);
@@ -25,7 +26,7 @@ const FeaturedProject = ({ type, title, summary, tools, img, link, github }) => 
     >
       <Link
         href={link}
-        target="_blank"
+        // target="_blank"
         className="w-full lg:w-1/2 cursor-pointer overflow-hidden rounded-lg"
       >
         <div className="relative w-full h-80 lg:h-140 rounded-lg bg-black/5 dark:bg-white/5">
@@ -91,7 +92,7 @@ const FeaturedProject = ({ type, title, summary, tools, img, link, github }) => 
 
           <Link
             href={link}
-            target="_blank"
+            // target="_blank"
             className="ml-4 rounded-lg bg-dark text-white p-2 px-6 text-lg font-semibold border-2 border-solid border-[rgb(var(--foreground-rgb))] dark:bg-light dark:text-dark"
           >
             Visit Project
@@ -198,6 +199,8 @@ const projects = () => {
         <meta name="description" content="Portfolio of Amin Isazadeh focusing on thermal management and RIS." />
       </Head>
 
+      <TransitionEffect />
+
       <main className="w-full mb-16 flex flex-col items-center justify-center">
         <Layout className="pt-16 sm:px-8 xs:px-4">
           <AnimatedText text="Insight Transcends Innovation!" className='text-4xl md:text-6xl mb-16 dark:text-light text-center' />
@@ -240,7 +243,7 @@ const projects = () => {
                   "HPC",
                   "Git/GitHub"
                 ]}
-                link="/"
+                link="/projects_details/tms_microchannel"
                 github="/"
                 type="Research Division"
               />
@@ -327,7 +330,7 @@ const projects = () => {
                   "Tecplot",
                   "ParaView"
                 ]}
-                link="/"
+                link="/projects_details/lennard_jones_fluid"
                 github="/"
                 type="Research Division"
               />

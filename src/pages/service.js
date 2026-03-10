@@ -3,6 +3,7 @@ import Layout from '@/components/Layout'
 import Head from 'next/head'
 import React from 'react'
 import { motion } from 'framer-motion'
+import TransitionEffect from '@/components/TransitionEffect'
 
 const StatCard = ({ number, label }) => {
   return (
@@ -90,6 +91,8 @@ const Service = () => {
           content="Leadership, academic service, peer-review activities, and research collaborations of Amin Isazadeh."
         />
       </Head>
+
+      <TransitionEffect />
 
       <main className="w-full flex flex-col items-center justify-center overflow-hidden">
         <Layout className="pt-16">

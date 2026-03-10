@@ -23,6 +23,7 @@ import art_7 from "../../public/gifs/2023__rser__globalTrends__frontPage.png"
 import art_8 from "../../public/gifs/2022__iracc__coolingTech__frontPage.png"
 import art_9 from "../../public/gifs/2022__energy__experimental__frontPage.png"
 import art_10 from "../../public/gifs/2021__energyBuilding__detecting__frontPage.png"
+import TransitionEffect from '@/components/TransitionEffect'
 
 
 const FramerImage = motion(Image);
@@ -155,6 +156,8 @@ const articles = () => {
         <title>Portfolio | Articles Page</title>
         <meta name="description" content="Professional background of Amin Isazadeh, Ph.D. Candidate in Thermal Sciences." />
       </Head>
+
+      <TransitionEffect />
 
       <main className='w-full mb-16 flex flex-col items-center justify-center overflow-hidden'>
         <Layout className='pt-16'>

@@ -7,6 +7,8 @@ import Link from "next/link";
 import AnimatedText from '@/components/AnimatedText';
 import Honors from '@/components/Honors';
 import ServiceHighlights from '@/components/ServiceHighlights';
+import TransitionEffect from '@/components/TransitionEffect';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,6 +21,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <TransitionEffect />
       <main className={styles.main}>
         <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-6xl gap-3 mb-16">
           <Image
