@@ -9,7 +9,6 @@ import Honors from '@/components/Honors';
 import ServiceHighlights from '@/components/ServiceHighlights';
 import TransitionEffect from '@/components/TransitionEffect';
 
-
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -50,7 +49,6 @@ export default function Home() {
 
             <div className='flex items-center self-center md:self-start mt-2 gap-6'>
               <Link 
-                // href="/dummy.pdf"
                 href="https://www.linkedin.com/in/aminisazadeh/"
                 target="_blank"
                 className='flex items-center 
@@ -59,7 +57,6 @@ export default function Home() {
                 p-2.5 px-6 rounded-lg text-lg font-semibold 
                 border-2 border-solid border-[rgb(var(--foreground-rgb))] 
                 transition-all duration-300'
-                // download={true}
               >
                 Resume <LinkArrow className="w-6 ml-2 fill-current"/>
               </Link>
@@ -75,36 +72,40 @@ export default function Home() {
         </div>
         
         <div className={styles.grid}>
-          <Link href="/projects#advanced-electronics" className={styles.card}>
-            <h2 className={`${inter.className} flex items-center gap-2 justify-center`}>
-              <ProcessorIcon className="!w-7" /> Advanced Electronics
+          <Link href="/projects#advanced-electronics" className={`${styles.card} text-center`}>
+            <h2 className={`${inter.className} flex items-center justify-center gap-2 whitespace-nowrap text-center`}>
+              <ProcessorIcon className="!w-7 shrink-0" />
+              <span>Advanced Electronics</span>
             </h2>
             <p className={`${inter.className} text-center`}>
               Thermal management for 2D and 3D integrated circuits using&nbsp;microchannels.
             </p>
           </Link>
 
-          <Link href="/projects#energy-sustainability" className={styles.card}>
-            <h2 className={`${inter.className} flex items-center gap-2 justify-center`}>
-              <EnergyIcon className="!w-7 text-green-500" /> Energy and Sustainability
+          <Link href="/projects#energy-sustainability" className={`${styles.card} text-center`}>
+            <h2 className={`${inter.className} flex items-center justify-center gap-2 whitespace-nowrap text-center`}>
+              <EnergyIcon className="!w-7 text-green-500 shrink-0" />
+              <span>Energy and Sustainability</span>
             </h2>
             <p className={`${inter.className} text-center`}>
               Optimizing data center cooling and evaluating energy commissioning efficiency.
             </p>
           </Link>
 
-          <Link href="/projects#physics-fundamentals" className={styles.card}>
-            <h2 className={`${inter.className} flex items-center gap-2 justify-center`}>
-              <AtomIcon className="!w-7 text-blue-400" /> Physics Fundamentals
+          <Link href="/projects#physics-fundamentals" className={`${styles.card} text-center`}>
+            <h2 className={`${inter.className} flex items-center justify-center gap-2 whitespace-nowrap text-center`}>
+              <AtomIcon className="!w-7 text-blue-400 shrink-0" />
+              <span>Physics Fundamentals</span>
             </h2>
             <p className={`${inter.className} text-center`}>
               Studying deformable particle dynamics, Molecular Dynamics, and Quantum Mechanics.
             </p>
           </Link>
 
-          <Link href="/projects#machine-learning-ai" className={styles.card}>
-            <h2 className={`${inter.className} flex items-center gap-2 justify-center`}>
-              <NeuralIcon className="!w-7 text-purple-500" /> Machine Learning and AI
+          <Link href="/projects#machine-learning-ai" className={`${styles.card} text-center`}>
+            <h2 className={`${inter.className} flex items-center justify-center gap-2 whitespace-nowrap text-center`}>
+              <NeuralIcon className="!w-7 text-purple-500 shrink-0" />
+              <span>Machine Learning and AI</span>
             </h2>
             <p className={`${inter.className} text-center`}>
               Applying FDD, PINNs, and Quantum Algorithms to optimize complex systems.
