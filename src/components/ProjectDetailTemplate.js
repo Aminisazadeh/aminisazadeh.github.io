@@ -967,11 +967,65 @@ export default function ProjectDetailTemplate({
         {quickSummary && (
           <motion.div
             {...fadeUp}
-            className="w-full max-w-5xl mx-auto rounded-[2rem] border border-[rgb(var(--foreground-rgb))]/15 bg-gradient-to-r from-pink-500/10 via-cyan-500/10 to-indigo-500/10 p-6 md:p-8 text-center shadow-xl mb-12"
+            className="w-full max-w-none rounded-3xl border border-[rgb(var(--foreground-rgb))]/15 bg-gradient-to-br from-pink-500/5 via-white/40 to-cyan-500/5 dark:via-zinc-900/40 p-4 md:p-6 text-center md:text-justify lg:text-justify shadow-lg mb-8 backdrop-blur-md"
           >
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed font-medium">
-              {quickSummary}
-            </p>
+            <div className="space-y-4">
+              
+              {/* --- INTRODUCTION SECTION --- */}
+              <section>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-pink-500/20 text-pink-600 dark:text-pink-400">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-sm md:text-medium lg:text-lg font-bold uppercase tracking-[0.2em] text-zinc-900 dark:text-zinc-100">
+                    Introduction
+                  </h4>
+                </div>
+                
+                <div className="md:pl-11 text-zinc-800 dark:text-zinc-300">
+                  {Array.isArray(quickSummary.intro) ? (
+                    quickSummary.intro.map((p, i) => (
+                      <p key={i} className="text-base leading-snug mb-3 last:mb-0 text-normal">
+                        {p}
+                      </p>
+                    ))
+                  ) : (
+                    <p className="text-base leading-snug text-normal">{quickSummary.intro}</p>
+                  )}
+                </div>
+              </section>
+
+              <div className="border-t border-zinc-300 dark:border-zinc-700 mx-2"></div>
+
+              {/* --- SCOPE OF THE STUDY SERIES --- */}
+              <section>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/20 text-cyan-600 dark:text-cyan-400">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01m-.01 4h.01" />
+                    </svg>
+                  </div>
+                  <h4 className="text-sm md:text-medium lg:text-lg font-bold uppercase tracking-[0.2em] text-zinc-900 dark:text-zinc-100">
+                    Scope of the Study Series
+                  </h4>
+                </div>
+
+                <div className="md:pl-11 text-zinc-800 dark:text-zinc-300">
+                  {Array.isArray(quickSummary.scope) ? (
+                    quickSummary.scope.map((p, i) => (
+                      <p key={i} className="text-base leading-snug mb-3 last:mb-0">
+                        {p}
+                      </p>
+                    ))
+                  ) : (
+                    <p className="text-base leading-snug">{quickSummary.scope}</p>
+                  )}
+                </div>
+              </section>
+              
+            </div>
           </motion.div>
         )}
 

@@ -1,9 +1,5 @@
 import Head from "next/head";
 import ProjectDetailTemplate from "@/components/ProjectDetailTemplate";
-
-// =========================
-// Replace these placeholders with your real visuals later
-// =========================
 import fig1 from "../../../public/gifs/aaa.gif";
 import fig2 from "../../../public/gifs/bbb.gif";
 
@@ -23,7 +19,14 @@ export default function LennardJonesFluid() {
         title="Binary Lennard–Jones Fluid in LAMMPS"
         period="2023 – Present"
         institution="Texas A&M University"
-        quickSummary="This project studies a binary Lennard–Jones fluid using molecular dynamics in LAMMPS, progressing from force-field definition and configuration relaxation to time-dependent thermodynamic response, species mixing, local structural evolution, and dense-phase demixing behavior. The page is organized as a research narrative rather than a tutorial, emphasizing how each stage builds a more physically interpretable picture of the system."
+        quickSummary={{
+          intro: [
+            "This study presents a molecular dynamics investigation of a binary Lennard–Jones fluid in a three-dimensional periodic domain using LAMMPS. The system is composed of two particle populations with different characteristic sizes and masses, providing a compact yet powerful framework for examining how microscopic interaction rules generate emergent thermodynamic and morphological behavior. Starting from a randomized initial configuration, the study follows the system through structural relaxation, equilibration, thermalization, interspecies mixing, phase separation, and molecular-architecture extensions. At its foundation, the work uses the Lennard–Jones interaction model to capture the competition between short-range repulsion and intermediate-range attraction. Within this setting, the binary fluid becomes an effective platform for studying how disordered particle assemblies evolve toward organized states, how energy is redistributed across ensembles, and how changes in density, interaction contrast, and molecular connectivity reshape system-scale behavior. Rather than treating the system as a single isolated simulation, this work develops it as a sequence of linked studies, each aimed at revealing a different aspect of particle-scale physics and emergent structure.",
+          ],
+          scope: [
+            "The series is organized as a progression from baseline structural relaxation to increasingly rich dynamical and morphological regimes. It begins by establishing how a randomly initialized two-species system relaxes into a lower-energy configuration through minimization. It then examines equilibrium-seeking behavior in the NVE ensemble, followed by thermostat-controlled thermalization and ensemble comparison. Once the baseline thermodynamic response is established, the focus shifts toward species transport and spatial redistribution through a dedicated mixing study. The later studies extend the same framework into dense-phase demixing and bonded molecular architectures, broadening the system from a binary atomic fluid to a more general coarse-grained molecular platform."
+          ]
+        }}
         backLink="/projects"
         sections={[
           {
