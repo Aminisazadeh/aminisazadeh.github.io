@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -14,7 +14,22 @@ const fadeUp = {
   viewport: { once: true, amount: 0.15 },
 };
 
-const panelLabels = ["(a)", "(b)", "(c)", "(d)"];
+const panelLabels = ["(A)", "(B)", "(C)", "(D)"];
+
+const shellGradient =
+  "from-pink-500/12 via-cyan-500/12 to-indigo-500/12";
+
+const sectionDividerGradient =
+  "bg-gradient-to-r from-pink-500/25 via-cyan-500/45 to-indigo-500/25";
+
+const gradientSurface =
+  "bg-gradient-to-br from-pink-500/8 via-cyan-500/6 to-indigo-500/8 dark:from-pink-500/10 dark:via-cyan-500/8 dark:to-indigo-500/10";
+
+const softPanelSurface =
+  "bg-white/60 dark:bg-white/[0.04]";
+
+const sharedButtonClass =
+  "inline-flex h-10 items-center justify-center rounded-xl border border-[rgb(var(--foreground-rgb))]/20 px-4 text-xs md:text-sm font-semibold transition";
 
 const SectionTitle = ({ children, subtitle, align = "left" }) => (
   <motion.div
@@ -36,10 +51,22 @@ const SectionTitle = ({ children, subtitle, align = "left" }) => (
   </motion.div>
 );
 
+const GlowShell = ({ children, className = "", glow = shellGradient }) => (
+  <motion.div
+    {...fadeUp}
+    className={`relative overflow-hidden rounded-3xl border border-[rgb(var(--foreground-rgb))]/15 bg-white/60 dark:bg-white/[0.04] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] ${className}`}
+  >
+    <div
+      className={`pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-r ${glow} blur-3xl`}
+    />
+    <div className="relative">{children}</div>
+  </motion.div>
+);
+
 const GlassCard = ({ children, className = "" }) => (
   <motion.div
     {...fadeUp}
-    className={`rounded-3xl border border-[rgb(var(--foreground-rgb))]/15 bg-white/60 dark:bg-white/5 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] ${className}`}
+    className={`rounded-3xl border border-[rgb(var(--foreground-rgb))]/15 bg-white/60 dark:bg-white/[0.04] backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.08)] ${className}`}
   >
     {children}
   </motion.div>
@@ -48,18 +75,13 @@ const GlassCard = ({ children, className = "" }) => (
 const InfoCard = ({
   title,
   children,
-  accent = "from-pink-500/15 to-cyan-500/15",
+  accent = shellGradient,
   className = "",
 }) => (
-  <GlassCard className={`p-5 md:p-6 overflow-hidden relative ${className}`}>
-    <div
-      className={`pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-r ${accent} blur-2xl`}
-    />
-    <div className="relative">
-      {title && <h3 className="text-lg md:text-xl font-bold mb-3">{title}</h3>}
-      <div className="text-sm md:text-base leading-relaxed opacity-90">{children}</div>
-    </div>
-  </GlassCard>
+  <GlowShell className={`p-5 md:p-6 ${className}`} glow={accent}>
+    {title && <h3 className="text-lg md:text-xl font-bold mb-3">{title}</h3>}
+    <div className="text-sm md:text-base leading-relaxed opacity-90">{children}</div>
+  </GlowShell>
 );
 
 const TagList = ({ items = [] }) => {
@@ -167,6 +189,22 @@ const normalizeMediaItems = (items = [], title = "") =>
           }
     );
 
+const Separator = ({ className = "my-8 md:my-10" }) => (
+  <div className={`h-1 w-full rounded-full ${sectionDividerGradient} ${className}`} />
+);
+
+const PanelBadge = ({ children }) => (
+  <span className="inline-flex min-h-[2.25rem] items-center justify-center rounded-md bg-zinc-800/95 px-3 py-1 text-xs sm:text-sm md:text-base lg:text-lg font-bold text-white shadow-sm">
+    {children}
+  </span>
+);
+
+const PanelTitle = ({ children }) => (
+  <div className="flex min-h-[3.25rem] items-center justify-center rounded-lg border border-[rgb(var(--foreground-rgb))]/10 bg-transparent px-3 py-2 text-center text-sm sm:text-base md:text-lg font-semibold shadow-sm">
+    {children}
+  </div>
+);
+
 const HeroStrip = ({
   items = [],
   title,
@@ -199,7 +237,7 @@ const HeroStrip = ({
         <SectionTitle subtitle={sectionSubtitle}>{sectionTitle}</SectionTitle>
       )}
 
-      <GlassCard className="p-4 sm:p-5 md:p-6 overflow-hidden">
+      <GlowShell className="p-4 sm:p-5 md:p-6" glow={shellGradient}>
         <div className={`grid ${cells} gap-4 md:gap-5`}>
           {normalizedItems.map((item, index) => (
             <motion.div
@@ -212,9 +250,7 @@ const HeroStrip = ({
             >
               <div className="relative rounded-[1.5rem] border border-[rgb(var(--foreground-rgb))]/10 bg-white/50 dark:bg-white/[0.03] shadow-sm p-3 md:p-4">
                 <div className="mb-3 flex flex-wrap gap-2">
-                  <span className="inline-flex items-center rounded-md bg-zinc-700/90 px-2.5 py-1 text-[11px] sm:text-xs md:text-sm font-semibold text-white shadow-sm">
-                    {panelLabels[index] || `(${index + 1})`}
-                  </span>
+                  <PanelBadge>{panelLabels[index] || `(${index + 1})`}</PanelBadge>
                 </div>
 
                 <div className="relative aspect-square rounded-[1.1rem] overflow-hidden bg-white/70 dark:bg-white/[0.04]">
@@ -223,11 +259,7 @@ const HeroStrip = ({
 
                 {(item.shortLabel || item.caption) && (
                   <div className="mt-3 space-y-2">
-                    {item.shortLabel && (
-                      <div className="rounded-lg bg-zinc-700/90 px-3 py-2 text-center text-xs sm:text-sm md:text-base font-medium text-white shadow-sm">
-                        {item.shortLabel}
-                      </div>
-                    )}
+                    {item.shortLabel && <PanelTitle>{item.shortLabel}</PanelTitle>}
                     {item.caption && (
                       <p className="text-xs sm:text-sm md:text-base opacity-75 leading-relaxed">
                         {item.caption}
@@ -243,7 +275,7 @@ const HeroStrip = ({
         {caption && (
           <p className="mt-4 text-sm md:text-base opacity-75 leading-relaxed">{caption}</p>
         )}
-      </GlassCard>
+      </GlowShell>
     </motion.section>
   );
 };
@@ -278,7 +310,7 @@ const WorkflowCard = ({ step, index }) => {
 };
 
 const EquationCard = ({ title, latex, description, inlineNotes = [] }) => (
-  <GlassCard className="p-5 md:p-6">
+  <GlowShell className="p-5 md:p-6">
     {title && <h3 className="text-lg md:text-xl font-bold mb-3">{title}</h3>}
 
     {description && (
@@ -298,11 +330,11 @@ const EquationCard = ({ title, latex, description, inlineNotes = [] }) => (
         ))}
       </div>
     )}
-  </GlassCard>
+  </GlowShell>
 );
 
 const CopyButton = ({ value }) => {
-  const [copied, setCopied] = React.useState(false);
+  const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
@@ -317,7 +349,7 @@ const CopyButton = ({ value }) => {
   return (
     <button
       onClick={handleCopy}
-      className="rounded-xl border border-[rgb(var(--foreground-rgb))]/15 px-3 py-1.5 text-xs md:text-sm font-medium bg-white/80 dark:bg-white/5 hover:scale-[1.02] transition"
+      className={`${sharedButtonClass} bg-white/80 dark:bg-white/5 hover:scale-[1.06]`}
       type="button"
     >
       {copied ? "Copied" : "Copy"}
@@ -331,73 +363,56 @@ const CodeBlockCard = ({
   code = "",
   description,
   defaultExpanded = false,
-  maxCollapsedLines = 12,
 }) => {
-  const [expanded, setExpanded] = React.useState(defaultExpanded);
+  const [expanded, setExpanded] = useState(defaultExpanded);
 
   if (!code) return null;
 
   const lines = code.replace(/\t/g, "  ").split("\n");
-  const visibleLines = expanded ? lines : lines.slice(0, maxCollapsedLines);
-  const hiddenCount = Math.max(lines.length - maxCollapsedLines, 0);
 
   return (
-    <GlassCard className="overflow-hidden">
-      <div className="flex flex-col gap-4 border-b border-[rgb(var(--foreground-rgb))]/10 p-4 md:p-5 sm:flex-row sm:items-start sm:justify-between">
+    <GlowShell className={`overflow-hidden border-2 border-[rgb(var(--foreground-rgb))]/10 ${gradientSurface}`}>
+      <div className={`flex flex-col gap-4 p-4 md:p-5 sm:flex-row sm:items-start sm:justify-between ${gradientSurface} bg-white/5 dark:bg-white/[0.03]`}>
         <div className="min-w-0">
-          <h3 className="text-lg md:text-xl font-bold break-words">{title || "Code Snippet"}</h3>
-          <p className="mt-1 text-xs md:text-sm uppercase tracking-[0.18em] opacity-60">
-            {language}
-          </p>
-          {description && (
-            <p className="mt-2 text-sm md:text-base opacity-80 max-w-3xl">{description}</p>
-          )}
+          <h3 className="text-lg md:text-xl font-bold">{title || "Code Snippet"}</h3>
+          <p className="mt-1 text-xs uppercase tracking-[0.18em] opacity-60">{language}</p>
+          {description && <p className="mt-2 text-sm md:text-base opacity-80">{description}</p>}
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
           <CopyButton value={code} />
-          {lines.length > maxCollapsedLines && (
-            <button
-              type="button"
-              onClick={() => setExpanded((prev) => !prev)}
-              className="rounded-xl border border-[rgb(var(--foreground-rgb))]/15 px-3 py-1.5 text-xs md:text-sm font-medium bg-white/80 dark:bg-white/5 hover:scale-[1.02] transition"
-            >
-              {expanded ? "Collapse" : "Expand"}
-            </button>
-          )}
+          <button
+            type="button"
+            onClick={() => setExpanded((prev) => !prev)}
+            className={`${sharedButtonClass} bg-white/80 dark:bg-white/5 hover:scale-[1.06]`}
+          >
+            {expanded ? "Hide Code" : "Show Code"}
+          </button>
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <div className="min-w-full bg-[#0b1020] text-slate-100">
-          <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10">
-            <span className="h-3 w-3 rounded-full bg-red-400" />
-            <span className="h-3 w-3 rounded-full bg-yellow-400" />
-            <span className="h-3 w-3 rounded-full bg-green-400" />
+      {expanded && (
+        <div className="overflow-x-auto border-t border-[rgb(var(--foreground-rgb))]/10">
+          <div className="min-w-full bg-[#0b1020] text-slate-100">
+            <pre className="m-0 p-0">
+              {lines.map((line, idx) => (
+                <div
+                  key={idx}
+                  className="grid grid-cols-[64px_minmax(0,1fr)] border-b border-white/5 text-xs sm:text-sm md:text-[15px] leading-6"
+                >
+                  <span className="select-none px-4 py-1.5 text-right text-slate-500 bg-white/[0.03] border-r border-white/5">
+                    {idx + 1}
+                  </span>
+                  <code className="px-4 py-1.5 whitespace-pre font-mono">
+                    {line || " "}
+                  </code>
+                </div>
+              ))}
+            </pre>
           </div>
-
-          <pre className="m-0 p-0 text-[12px] sm:text-[13px] md:text-sm leading-6 overflow-x-auto">
-            {visibleLines.map((line, idx) => (
-              <div
-                key={idx}
-                className="grid grid-cols-[52px_1fr] md:grid-cols-[64px_1fr] hover:bg-white/5 min-w-[640px]"
-              >
-                <span className="select-none px-3 md:px-4 text-right text-slate-400 border-r border-white/10">
-                  {idx + 1}
-                </span>
-                <code className="px-3 md:px-4 whitespace-pre">{line || " "}</code>
-              </div>
-            ))}
-          </pre>
-
-          {!expanded && hiddenCount > 0 && (
-            <div className="px-4 py-3 text-xs md:text-sm text-slate-300 border-t border-white/10 bg-white/5">
-              + {hiddenCount} more line{hiddenCount > 1 ? "s" : ""}
-            </div>
-          )}
         </div>
-      </div>
-    </GlassCard>
+      )}
+    </GlowShell>
   );
 };
 
@@ -405,7 +420,7 @@ const RichTextCard = ({
   title,
   body,
   paragraphs = [],
-  accent = "from-pink-500/15 to-cyan-500/15",
+  accent = shellGradient,
 }) => {
   const normalizedParagraphs =
     paragraphs.length > 0
@@ -512,7 +527,7 @@ const ButtonLinks = ({ githubLink, externalLink, links = [] }) => {
 const TwoColumnInfo = ({
   left,
   right,
-  leftAccent = "from-pink-500/15 to-cyan-500/15",
+  leftAccent = shellGradient,
   rightAccent = "from-cyan-500/15 to-indigo-500/15",
 }) => {
   if (!left && !right) return null;
@@ -546,6 +561,250 @@ const TwoColumnInfo = ({
   );
 };
 
+const InlineLinksRow = ({ items = [] }) => {
+  if (!items.length) return null;
+
+  return (
+    <div className={`rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 p-4 md:p-5 ${gradientSurface} ${softPanelSurface}`}>
+      <div className="flex flex-wrap items-center justify-center gap-4">
+        {items.map((link, index) => {
+          const isGithub = link.kind === "github";
+          const isPrimary = link.kind === "external" || link.variant === "primary";
+
+          return (
+            <Link
+              key={index}
+              href={link.href}
+              target={link.target || "_blank"}
+              className={`inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm md:text-base font-semibold border border-[rgb(var(--foreground-rgb))]/20 shadow-md hover:-translate-y-0.5 transition ${
+                isPrimary
+                  ? "bg-dark text-white dark:bg-light dark:text-dark"
+                  : "bg-white/80 dark:bg-white/5"
+              }`}
+            >
+              {isGithub && (
+                <span className="w-5">
+                  <GithubIcon />
+                </span>
+              )}
+
+              {link.label}
+
+              {!isGithub && (
+                <span className="w-5">
+                  <LinkArrow className="fill-current" />
+                </span>
+              )}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+const CompositeNarrative = ({ content = [] }) => (
+  <div className="space-y-5 text-left xl:text-justify text-base md:text-lg leading-relaxed">
+    {content.map((item, i) => {
+      if (item.type === "equation") {
+        return (
+          <div
+            key={i}
+            className="rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 bg-black/20 dark:bg-black/25 px-4 py-6 overflow-x-auto"
+          >
+            <BlockMath math={item.latex} />
+          </div>
+        );
+      }
+
+      if (item.type === "equationInline") {
+        return <CompositeEquationInline key={i} latex={item.latex} />;
+      }
+
+      if (item.type === "equationInlineWithDefs") {
+        return (
+          <CompositeEquationInlineWithDefs
+            key={i}
+            latex={item.latex}
+            definitions={item.definitions || []}
+          />
+        );
+      }
+
+      return <p key={i}>{item.text}</p>;
+    })}
+  </div>
+);
+
+const CompositeEquationInline = ({ latex }) => {
+  if (!latex) return null;
+
+  return (
+    <div className="rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 bg-zinc-300 dark:bg-transparent px-4 md:px-5 py-5 md:py-6 overflow-x-auto">
+      <BlockMath math={latex} />
+    </div>
+  );
+};
+
+const CompositeEquationInlineWithDefs = ({
+  latex,
+  definitions = [],
+}) => {
+  if (!latex) return null;
+
+  return (
+    <div className="rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 bg-zinc-300 dark:bg-transparent px-4 md:px-5 py-5 md:py-6 overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-[3fr_auto_2fr] items-center gap-4 md:gap-5">
+        {/* Left: equation */}
+        <div className="flex items-center justify-center overflow-x-auto">
+          <BlockMath math={latex} />
+        </div>
+
+        {/* Middle: separator */}
+        <div className="hidden md:flex items-stretch justify-center self-stretch">
+          <div className="w-px h-full bg-[rgb(var(--foreground-rgb))]/15" />
+        </div>
+
+        {/* Right: definitions */}
+        <div className="text-sm md:text-base leading-relaxed space-y-2">
+          {definitions.map((item, idx) => (
+            <div key={idx} className="break-words">
+              {item.latex ? <InlineMath math={item.latex} /> : null}
+              {item.text ? <span>{item.text}</span> : null}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const CompositeVisualGrid = ({ items = [] }) => {
+  const normalizedItems = normalizeMediaItems(items);
+
+  return (
+    <div
+      className={`rounded-[2rem] border border-[rgb(var(--foreground-rgb))]/10 p-4 md:p-6 ${gradientSurface} ${softPanelSurface}`}
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-stretch">
+        {normalizedItems.map((img, imgIdx) => (
+          <div
+            key={imgIdx}
+            className={`flex h-full flex-col rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 p-3 md:p-4 shadow-sm ${gradientSurface} ${softPanelSurface}`}
+          >
+            {/* Top label */}
+            <div className="mb-3 flex justify-center">
+              <PanelBadge>{panelLabels[imgIdx] || `(${imgIdx + 1})`}</PanelBadge>
+            </div>
+
+            {/* Image zone */}
+            <div className="relative mb-3 aspect-square rounded-xl overflow-hidden border border-[rgb(var(--foreground-rgb))]/5 bg-transparent">
+              <MediaFrame
+                item={{
+                  src: img.src,
+                  alt: img.alt || img.label || "Composite panel",
+                  type: img.type || "image",
+                  cover: img.cover ?? true,
+                }}
+                priority={imgIdx < 2}
+              />
+            </div>
+
+            {/* Bottom content zone */}
+            <div className="mt-auto flex flex-1 flex-col">
+              {img.label && <PanelTitle>{img.label}</PanelTitle>}
+
+              <div className="mt-2 flex flex-1 items-start">
+                {img.description && (
+                  <p className="w-full text-center text-xs sm:text-sm md:text-base opacity-80 leading-snug">
+                    {img.description}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const CompositeBlock = ({ title, subtitle, subSections = [] }) => (
+  <section className="w-full mb-12">
+    <SectionTitle subtitle={subtitle}>{title}</SectionTitle>
+
+    <GlowShell className={`p-6 md:p-8 lg:p-10 ${gradientSurface}`} glow={shellGradient}>
+      <div className="relative flex flex-col">
+        {subSections.map((sub, subIdx) => {
+          if (sub.type === "narrative") {
+            return (
+              <div key={subIdx}>
+                <CompositeNarrative content={sub.content || []} />
+              </div>
+            );
+          }
+
+          if (sub.type === "visualGrid") {
+            return (
+              <div key={subIdx}>
+                <Separator />
+                <CompositeVisualGrid items={sub.items || []} />
+              </div>
+            );
+          }
+
+          if (sub.type === "equationInline") {
+            return (
+              <div key={subIdx}>
+                <Separator />
+                <CompositeEquationInline latex={sub.latex} />
+              </div>
+            );
+          }
+
+          if (sub.type === "equationInlineWithDefs") {
+            return (
+              <div key={subIdx}>
+                <Separator />
+                <CompositeEquationInlineWithDefs
+                  latex={sub.latex}
+                  definitions={sub.definitions || []}
+                />
+              </div>
+            );
+          }
+
+          if (sub.type === "codeEnd") {
+            return (
+              <div key={subIdx}>
+                <Separator />
+                <CodeBlockCard
+                  title={sub.title}
+                  language={sub.language}
+                  code={sub.code}
+                  description={sub.description}
+                  defaultExpanded={sub.defaultExpanded ?? false}
+                />
+              </div>
+            );
+          }
+
+          if (sub.type === "linksRow") {
+            return (
+              <div key={subIdx}>
+                <Separator />
+                <InlineLinksRow items={sub.items || []} />
+              </div>
+            );
+          }
+
+          return null;
+        })}
+      </div>
+    </GlowShell>
+  </section>
+);
+
 const renderSection = (section, index, pageTitle) => {
   if (!section || !section.type) return null;
 
@@ -572,7 +831,7 @@ const renderSection = (section, index, pageTitle) => {
             title={section.title}
             body={section.body}
             paragraphs={section.paragraphs || []}
-            accent={section.accent || "from-pink-500/15 to-cyan-500/15"}
+            accent={section.accent || shellGradient}
           />
         </section>
       );
@@ -685,7 +944,6 @@ const renderSection = (section, index, pageTitle) => {
                 code={block.code}
                 description={block.description}
                 defaultExpanded={block.defaultExpanded}
-                maxCollapsedLines={block.maxCollapsedLines || 12}
               />
             ))}
           </div>
@@ -759,6 +1017,16 @@ const renderSection = (section, index, pageTitle) => {
           githubLink={section.githubLink}
           externalLink={section.externalLink}
           links={section.items || []}
+        />
+      );
+
+    case "compositeBlock":
+      return (
+        <CompositeBlock
+          key={index}
+          title={section.title}
+          subtitle={section.subtitle}
+          subSections={section.subSections || []}
         />
       );
 
@@ -965,68 +1233,92 @@ export default function ProjectDetailTemplate({
         </div>
 
         {quickSummary && (
-          <motion.div
-            {...fadeUp}
-            className="w-full max-w-none rounded-3xl border border-[rgb(var(--foreground-rgb))]/15 bg-gradient-to-br from-pink-500/5 via-white/40 to-cyan-500/5 dark:via-zinc-900/40 p-4 md:p-6 text-center md:text-justify lg:text-justify shadow-lg mb-8 backdrop-blur-md"
-          >
-            <div className="space-y-4">
-              
-              {/* --- INTRODUCTION SECTION --- */}
-              <section>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-pink-500/20 text-pink-600 dark:text-pink-400">
+          <GlowShell className="p-5 md:p-8 mb-12" glow={shellGradient}>
+            <div className="space-y-6">
+              <section className="flex flex-col items-center md:items-start">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-pink-500/20 text-pink-600 dark:text-pink-400 shadow-sm">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h4 className="text-sm md:text-medium lg:text-lg font-bold uppercase tracking-[0.2em] text-zinc-900 dark:text-zinc-100">
+                  <h4 className="text-sm md:text-lg font-bold uppercase tracking-[0.2em]">
                     Introduction
                   </h4>
                 </div>
-                
-                <div className="md:pl-11 text-zinc-800 dark:text-zinc-300">
+
+                <div className="text-center md:text-justify md:pl-12">
                   {Array.isArray(quickSummary.intro) ? (
                     quickSummary.intro.map((p, i) => (
-                      <p key={i} className="text-base leading-snug mb-3 last:mb-0 text-normal">
+                      <p key={i} className="text-base md:text-lg leading-relaxed mb-4 last:mb-0">
                         {p}
                       </p>
                     ))
                   ) : (
-                    <p className="text-base leading-snug text-normal">{quickSummary.intro}</p>
+                    <p className="text-base md:text-lg leading-relaxed">{quickSummary.intro}</p>
                   )}
                 </div>
               </section>
 
-              <div className="border-t border-zinc-300 dark:border-zinc-700 mx-2"></div>
+              <div className="border-t border-[rgb(var(--foreground-rgb))]/10 mx-2" />
 
-              {/* --- SCOPE OF THE STUDY SERIES --- */}
-              <section>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/20 text-cyan-600 dark:text-cyan-400">
+              <section className="flex flex-col items-center md:items-start">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 shadow-sm">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01m-.01 4h.01" />
                     </svg>
                   </div>
-                  <h4 className="text-sm md:text-medium lg:text-lg font-bold uppercase tracking-[0.2em] text-zinc-900 dark:text-zinc-100">
+                  <h4 className="text-sm md:text-lg font-bold uppercase tracking-[0.2em]">
                     Scope of the Study Series
                   </h4>
                 </div>
 
-                <div className="md:pl-11 text-zinc-800 dark:text-zinc-300">
+                <div className="text-center md:text-justify md:pl-12">
                   {Array.isArray(quickSummary.scope) ? (
                     quickSummary.scope.map((p, i) => (
-                      <p key={i} className="text-base leading-snug mb-3 last:mb-0">
+                      <p key={i} className="text-base md:text-lg leading-relaxed mb-4 last:mb-0">
                         {p}
                       </p>
                     ))
                   ) : (
-                    <p className="text-base leading-snug">{quickSummary.scope}</p>
+                    <p className="text-base md:text-lg leading-relaxed">{quickSummary.scope}</p>
                   )}
                 </div>
               </section>
-              
+
+              <div className="border-t border-[rgb(var(--foreground-rgb))]/10 mx-2" />
+
+              <section className="flex flex-col items-center md:items-start">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 shadow-sm">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </div>
+                  <h4 className="text-sm md:text-lg font-bold uppercase tracking-[0.2em]">
+                    Tools Used
+                  </h4>
+                </div>
+
+                <div className="md:pl-12">
+                  <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                    {(Array.isArray(quickSummary.tools)
+                      ? quickSummary.tools
+                      : quickSummary.toolsUsed || []
+                    ).map((tool, i) => (
+                      <span
+                        key={i}
+                        className="px-4 py-1.5 rounded-full border border-[rgb(var(--foreground-rgb))]/10 bg-white/40 dark:bg-white/5 text-sm md:text-base font-medium shadow-sm"
+                      >
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </section>
             </div>
-          </motion.div>
+          </GlowShell>
         )}
 
         {activeSections.map((section, index) => renderSection(section, index, title))}
