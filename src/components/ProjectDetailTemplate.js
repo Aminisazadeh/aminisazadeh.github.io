@@ -1,8 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { BlockMath, InlineMath } from "react-katex";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import Layout from "@/components/Layout";
 import AnimatedText from "@/components/AnimatedText";
 import { GithubIcon, LinkArrow } from "@/components/Icons";
@@ -33,6 +35,43 @@ const sharedButtonClass =
 
 const equationSurface =
   "bg-gradient-to-br from-zinc-200/90 via-slate-100/85 to-zinc-200/90 dark:from-zinc-950 dark:via-slate-900 dark:to-black";
+
+const normalizeCodeLanguage = (language = "text") => {
+  const key = String(language).toLowerCase().trim();
+
+  const languageMap = {
+    js: "javascript",
+    jsx: "jsx",
+    ts: "typescript",
+    tsx: "tsx",
+    py: "python",
+    sh: "bash",
+    zsh: "bash",
+    shell: "bash",
+    yml: "yaml",
+    md: "markdown",
+    tex: "latex",
+    cxx: "cpp",
+    hpp: "cpp",
+    cc: "cpp",
+    matlab: "matlab",
+    octave: "matlab",
+    lammps: "bash",
+    "lammps-input": "bash",
+    inp: "bash",
+    text: "text",
+    txt: "text",
+    plaintext: "text",
+  };
+
+  return languageMap[key] || key;
+};
+
+const inferLanguageFromPath = (path = "") => {
+  const match = path.match(/\.([a-zA-Z0-9]+)$/);
+  if (!match) return "text";
+  return normalizeCodeLanguage(match[1]);
+};
 
 const SectionTitle = ({ children, subtitle, align = "left" }) => (
   <motion.div
@@ -362,28 +401,92 @@ const CopyButton = ({ value }) => {
 
 const CodeBlockCard = ({
   title,
-  language = "txt",
+  language = "text",
   code = "",
+  codePath = "",
   description,
   defaultExpanded = false,
 }) => {
   const [expanded, setExpanded] = useState(defaultExpanded);
+  const [resolvedCode, setResolvedCode] = useState(code || "");
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadError, setLoadError] = useState("");
 
-  if (!code) return null;
+  const displayLanguage = language || (codePath ? inferLanguageFromPath(codePath) : "text");
+  const syntaxLanguage = normalizeCodeLanguage(displayLanguage);
 
-  const lines = code.replace(/\t/g, "  ").split("\n");
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadCode = async () => {
+      if (code && code.trim()) {
+        setResolvedCode(code);
+        setLoadError("");
+        setIsLoading(false);
+        return;
+      }
+
+      if (!codePath) {
+        setResolvedCode("");
+        setLoadError("");
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        setLoadError("");
+
+        const response = await fetch(codePath);
+
+        if (!response.ok) {
+          throw new Error(`Failed to load file: ${response.status} ${response.statusText}`);
+        }
+
+        const text = await response.text();
+
+        if (!cancelled) {
+          setResolvedCode(text);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setResolvedCode("");
+          setLoadError(err?.message || "Unable to load code file.");
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadCode();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [code, codePath]);
+
+  if (!code && !codePath) return null;
 
   return (
     <GlowShell className={`overflow-hidden border-2 border-[rgb(var(--foreground-rgb))]/10 ${gradientSurface}`}>
       <div className={`flex flex-col gap-4 p-4 md:p-5 sm:flex-row sm:items-start sm:justify-between ${gradientSurface} bg-white/5 dark:bg-white/[0.03]`}>
         <div className="min-w-0">
           <h3 className="text-lg md:text-xl font-bold">{title || "Code Snippet"}</h3>
-          <p className="mt-1 text-xs uppercase tracking-[0.18em] opacity-60">{language}</p>
+          <p className="mt-1 text-xs uppercase tracking-[0.18em] opacity-60">
+            {displayLanguage}
+          </p>
+          {codePath && (
+            <p className="mt-1 text-xs md:text-sm opacity-60 break-all">
+              Source: {codePath}
+            </p>
+          )}
           {description && <p className="mt-2 text-sm md:text-base opacity-80">{description}</p>}
         </div>
 
         <div className="flex items-center gap-2 shrink-0">
-          <CopyButton value={code} />
+          <CopyButton value={resolvedCode} />
           <button
             type="button"
             onClick={() => setExpanded((prev) => !prev)}
@@ -396,23 +499,46 @@ const CodeBlockCard = ({
 
       {expanded && (
         <div className="overflow-x-auto border-t border-[rgb(var(--foreground-rgb))]/10">
-          <div className="min-w-full bg-[#0b1020] text-slate-100">
-            <pre className="m-0 p-0">
-              {lines.map((line, idx) => (
-                <div
-                  key={idx}
-                  className="grid grid-cols-[64px_minmax(0,1fr)] border-b border-white/5 text-xs sm:text-sm md:text-[15px] leading-6"
-                >
-                  <span className="select-none px-4 py-1.5 text-right text-slate-500 bg-white/[0.03] border-r border-white/5">
-                    {idx + 1}
-                  </span>
-                  <code className="px-4 py-1.5 whitespace-pre font-mono">
-                    {line || " "}
-                  </code>
-                </div>
-              ))}
-            </pre>
-          </div>
+          {isLoading ? (
+            <div className="p-4 md:p-5 bg-[#0b1020] text-slate-200 text-sm md:text-base">
+              Loading code file...
+            </div>
+          ) : loadError ? (
+            <div className="p-4 md:p-5 bg-[#0b1020] text-red-300 text-sm md:text-base">
+              {loadError}
+            </div>
+          ) : (
+            <div className="min-w-full bg-[#0b1020] text-slate-100">
+              <SyntaxHighlighter
+                language={syntaxLanguage}
+                style={oneDark}
+                showLineNumbers={true}
+                wrapLongLines={false}
+                customStyle={{
+                  margin: 0,
+                  padding: "1rem",
+                  background: "transparent",
+                  fontSize: "0.65rem",
+                  lineHeight: "1.6",
+                  borderRadius: 0,
+                }}
+                lineNumberStyle={{
+                  minWidth: "3em",
+                  paddingRight: "1em",
+                  color: "#64748b",
+                  userSelect: "none",
+                }}
+                codeTagProps={{
+                  style: {
+                    fontFamily:
+                      'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                  },
+                }}
+              >
+                {resolvedCode || " "}
+              </SyntaxHighlighter>
+            </div>
+          )}
         </div>
       )}
     </GlowShell>
@@ -658,17 +784,14 @@ const CompositeEquationInlineWithDefs = ({
   return (
     <div className={`rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 px-4 md:px-5 py-5 md:py-6 overflow-hidden ${equationSurface}`}>
       <div className="grid grid-cols-1 md:grid-cols-[3fr_auto_2fr] items-center gap-4 md:gap-5">
-        {/* Left: equation */}
         <div className="flex items-center justify-center overflow-x-auto">
           <BlockMath math={latex} />
         </div>
 
-        {/* Middle: separator */}
         <div className="hidden md:flex items-stretch justify-center self-stretch">
           <div className="w-px h-full bg-[rgb(var(--foreground-rgb))]/15" />
         </div>
 
-        {/* Right: definitions */}
         <div className="text-sm md:text-base leading-relaxed space-y-2">
           {definitions.map((item, idx) => (
             <div key={idx} className="break-words">
@@ -695,12 +818,10 @@ const CompositeVisualGrid = ({ items = [] }) => {
             key={imgIdx}
             className={`flex h-full flex-col rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 p-3 md:p-4 shadow-sm ${gradientSurface} ${softPanelSurface}`}
           >
-            {/* Top label */}
             <div className="mb-3 flex justify-center">
               <PanelBadge>{panelLabels[imgIdx] || `(${imgIdx + 1})`}</PanelBadge>
             </div>
 
-            {/* Image zone */}
             <div className="relative mb-3 aspect-square rounded-xl overflow-hidden border border-[rgb(var(--foreground-rgb))]/5 bg-transparent">
               <MediaFrame
                 item={{
@@ -713,7 +834,6 @@ const CompositeVisualGrid = ({ items = [] }) => {
               />
             </div>
 
-            {/* Bottom content zone */}
             <div className="mt-auto flex flex-1 flex-col">
               {img.label && <PanelTitle>{img.label}</PanelTitle>}
 
@@ -810,6 +930,7 @@ const CompositeBlock = ({ title, subtitle, subSections = [] }) => (
                   title={sub.title}
                   language={sub.language}
                   code={sub.code}
+                  codePath={sub.codePath}
                   description={sub.description}
                   defaultExpanded={sub.defaultExpanded ?? false}
                 />
@@ -970,6 +1091,7 @@ const renderSection = (section, index, pageTitle) => {
                 title={block.title}
                 language={block.language}
                 code={block.code}
+                codePath={block.codePath}
                 description={block.description}
                 defaultExpanded={block.defaultExpanded}
               />

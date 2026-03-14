@@ -11,7 +11,6 @@ import fig2s from "../../../public/gifs/lammps___study_1/study_1___pe_iso_s.png"
 // import fig2e from "../../../public/gifs/lammps___study_1/study_1___pe_iso_e.png";
 // import fig3 from "../../../public/gifs/lammps___study_1/thermo.png";
 
-
 export default function LennardJonesFluid() {
   return (
     <>
@@ -53,37 +52,28 @@ export default function LennardJonesFluid() {
               "Initial structural stabilization of the binary Lennard–Jones system.",
             subSections: [
               {
-                type: "narrative",
-                content: [
+                "type": "narrative",
+                "content": [
                   {
-                    text: "The first study examines how a randomly initialized binary Lennard–Jones system reorganizes into a lower-energy configuration through iterative energy minimization. This stage establishes the structural baseline for all subsequent simulations by removing highly unfavorable overlaps and allowing the two-species assembly to settle into a mechanically admissible arrangement.",
+                    "text": "The first study examines the structural relaxation of a randomly initialized binary Lennard–Jones system. The simulation domain is periodic in all three directions and contains 1500 type-1 atoms and 100 type-2 atoms distributed stochastically with only limited overlap control. Because random initialization can place particles unrealistically close together, the starting configuration contains highly repulsive contacts and elevated potential energy. This study therefore focuses on how energy minimization transforms a disordered, mechanically unfavorable configuration into a stable low-energy arrangement."
                   },
                   {
-                    text: "The pairwise interaction energy is defined by the Lennard–Jones potential. The first equation block below preserves the original single-panel presentation.",
+                    "text": "The pairwise interaction energy is governed by the Lennard–Jones potential:"
                   },
                   {
-                    type: "equationInline",
-                    latex:
-                      "E_{ij}(r) = 4\\epsilon_{ij} \\left[ \\left( \\frac{\\sigma_{ij}}{r} \\right)^{12} - \\left( \\frac{\\sigma_{ij}}{r} \\right)^6 \\right], \\quad r < r_c",
+                    "type": "equationInlineWithDefs",
+                    "latex": "E_{ij}(r) = 4\\epsilon_{ij} \\left[ \\left( \\frac{\\sigma_{ij}}{r} \\right)^{12} - \\left( \\frac{\\sigma_{ij}}{r} \\right)^6 \\right], \\quad r < r_c",
+                    "definitions": [
+                      { "latex": "r", "text": "is interparticle distance" },
+                      { "latex": "\\epsilon_{ij}", "text": "is the interaction strength" },
+                      { "latex": "\\sigma_{ij}", "text": "is the effective particle size" },
+                      { "latex": "r_c", "text": "is the cutoff radius" }
+                    ]
                   },
                   {
-                    text: "The same relation can also be shown with a compact definition panel so the governing terms are immediately visible alongside the equation.",
-                  },
-                  {
-                    type: "equationInlineWithDefs",
-                    latex:
-                      "E_{ij}(r) = 4\\epsilon_{ij} \\left[ \\left( \\frac{\\sigma_{ij}}{r} \\right)^{12} - \\left( \\frac{\\sigma_{ij}}{r} \\right)^6 \\right], \\quad r < r_c",
-                    definitions: [
-                      { latex: "r", text: " = separation distance" },
-                      { latex: "\\epsilon_{ij}", text: " = interaction strength" },
-                      { latex: "\\sigma_{ij}", text: " = characteristic size" },
-                      { latex: "r_c", text: " = cutoff radius" },
-                    ],
-                  },
-                  {
-                    text: "Here, r is the separation distance, epsilon controls interaction strength, and sigma sets the characteristic particle size. Because this stage is purely a minimization step, kinetic energy is absent and the total system energy reduces to the potential contribution, E = U.",
-                  },
-                ],
+                    "text": "The two species are assigned distinct self-interaction parameters, while cross-interactions are generated through mixing rules. During minimization, kinetic energy is absent, so the total energy reduces to the configurational contribution, E = U."
+                  }
+                ]
               },
               {
                 type: "findingsBlock",
@@ -105,66 +95,54 @@ export default function LennardJonesFluid() {
                 ],
               },
               {
-                type: "visualGrid",
-                items: [
+                "type": "visualGrid",
+                "items": [
                   {
-                    src: fig1s,
-                    label: "Initial Configuration",
-                    description:
-                      "Randomized two-species Lennard–Jones particle distribution in a three-dimensional periodic simulation box before energy minimization.",
+                    "src": fig1s,
+                    "label": "Initial Configuration",
+                    "description": "Randomized two-species Lennard–Jones particle distribution in a three-dimensional periodic simulation box before energy minimization."
                   },
                   {
-                    src: fig1,
-                    label: "Post-Minimization State",
-                    description:
-                      "Relaxed particle arrangement after iterative minimization, showing reduced overlap and a more mechanically favorable local structure.",
+                    "src": fig1,
+                    "label": "Minimization Dynamics",
+                    "description": "Animation of particle motion during the iterative minimization process, illustrating the structural relaxation from an unstable state."
                   },
                   {
-                    src: fig2s,
-                    label: "Energy Evolution",
-                    description:
-                      "Representative potential-energy history versus minimization step, highlighting rapid early relaxation followed by convergence toward a stable negative plateau.",
+                    "src": fig2s,
+                    "label": "Initial Potential Energy",
+                    "description": "Visualization of the initial potential energy distribution across the system before the start of the relaxation process."
                   },
                   {
-                    src: fig2,
-                    label: "Structural Comparison",
-                    description:
-                      "Before-and-after comparison view illustrating the transition from unstable random packing to a more coherent minimized configuration.",
-                  },
-                ],
+                    "src": fig2,
+                    "label": "Potential Energy Evolution",
+                    "description": "Animation showing the change in potential energy during minimization, highlighting the transition toward a stable negative plateau."
+                  }
+                ]
               },
               {
                 type: "codeEnd",
                 title: "LAMMPS Minimization Script",
-                language: "bash",
-                code: `units lj
-                atom_style atomic
-                boundary p p p
-
-                pair_style lj/cut 2.5
-                pair_coeff 1 1 1.0 1.0
-                pair_coeff 2 2 0.5 3.0
-
-                minimize 1.0e-4 1.0e-6 100 1000`,
+                language: "lammps",
+                codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
                 description:
-                  "Representative LAMMPS setup used to define reduced Lennard–Jones units, periodic boundaries, pairwise interactions, and minimization controls for the initial structural relaxation stage.",
+                  "LAMMPS input file loaded from the public folder for the initial structural relaxation and energy minimization stage.",
                 defaultExpanded: false,
               },
-              {
-                type: "linksRow",
-                items: [
-                  {
-                    label: "LAMMPS Tutorial Page",
-                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
-                    kind: "external",
-                  },
-                  {
-                    label: "Tutorial 1 Input Files",
-                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
-                    kind: "github",
-                  },
-                ],
-              },
+              // {
+              //   type: "linksRow",
+              //   items: [
+              //     {
+              //       label: "LAMMPS Tutorial Page",
+              //       href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+              //       kind: "external",
+              //     },
+              //     {
+              //       label: "Tutorial 1 Input Files",
+              //       href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+              //       kind: "github",
+              //     },
+              //   ],
+              // },
             ],
           },
 
@@ -245,26 +223,10 @@ export default function LennardJonesFluid() {
               {
                 type: "codeEnd",
                 title: "LAMMPS NVE Dynamics Script",
-                language: "bash",
-                code: `units lj
-                atom_style atomic
-                boundary p p p
-
-                read_data binary_fluid_minimized.data
-
-                pair_style lj/cut 2.5
-                pair_coeff 1 1 1.0 1.0
-                pair_coeff 2 2 0.5 3.0
-
-                velocity all create 1.0 12345
-                fix 1 all nve
-
-                thermo 100
-                thermo_style custom step temp pe ke etotal press
-
-                run 10000`,
+                language: "lammps",
+                codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
                 description:
-                  "Representative LAMMPS setup for propagating the minimized configuration in the microcanonical ensemble while tracking temperature, potential energy, kinetic energy, total energy, and pressure.",
+                  "LAMMPS input file loaded from the public folder for propagating the minimized configuration in the microcanonical ensemble while tracking thermodynamic evolution.",
                 defaultExpanded: false,
               },
               {
@@ -362,27 +324,10 @@ export default function LennardJonesFluid() {
               {
                 type: "codeEnd",
                 title: "LAMMPS Thermostat-Controlled Dynamics Script",
-                language: "bash",
-                code: `units lj
-                atom_style atomic
-                boundary p p p
-
-                read_data binary_fluid_minimized.data
-
-                pair_style lj/cut 2.5
-                pair_coeff 1 1 1.0 1.0
-                pair_coeff 2 2 0.5 3.0
-
-                velocity all create 1.0 24680
-                fix 1 all nve
-                fix 2 all langevin 1.0 1.0 1.0 98765
-
-                thermo 100
-                thermo_style custom step temp pe ke etotal press
-
-                run 10000`,
+                language: "lammps",
+                codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
                 description:
-                  "Representative LAMMPS setup for comparing externally regulated thermalization against natural NVE equilibration using a Langevin thermostat superimposed on particle dynamics.",
+                  "LAMMPS input file loaded from the public folder for comparing externally regulated thermalization against natural NVE equilibration.",
                 defaultExpanded: false,
               },
               {
@@ -423,8 +368,14 @@ export default function LennardJonesFluid() {
                     latex:
                       "N_{1,\\mathrm{in}} = \\text{count of type-1 atoms in the inner region}, \\qquad N_{2,\\mathrm{in}} = \\text{count of type-2 atoms in the inner region}.",
                     definitions: [
-                      { latex: "N_{1,\\mathrm{in}}", text: " = number of type-1 atoms in the selected inner region" },
-                      { latex: "N_{2,\\mathrm{in}}", text: " = number of type-2 atoms in the selected inner region" },
+                      {
+                        latex: "N_{1,\\mathrm{in}}",
+                        text: " = number of type-1 atoms in the selected inner region",
+                      },
+                      {
+                        latex: "N_{2,\\mathrm{in}}",
+                        text: " = number of type-2 atoms in the selected inner region",
+                      },
                     ],
                   },
                   {
@@ -492,33 +443,10 @@ export default function LennardJonesFluid() {
               {
                 type: "codeEnd",
                 title: "LAMMPS Mixing and Coordination Script",
-                language: "bash",
-                code: `units lj
-                atom_style atomic
-                boundary p p p
-
-                read_data binary_fluid_separated.data
-
-                pair_style lj/cut 2.5
-                pair_coeff 1 1 1.0 1.0
-                pair_coeff 2 2 0.5 3.0
-                pair_coeff 1 2 1.0 1.0
-
-                fix 1 all nve
-
-                region inner cylinder z 0.0 0.0 5.0 INF INF units box
-                group type1 type 1
-                group type2 type 2
-                group type1in region inner
-                group type2in region inner
-
-                compute coord12 type1 coord/atom cutoff 1.5 group type2
-                thermo 100
-                thermo_style custom step temp pe ke etotal press
-
-                run 10000`,
+                language: "lammps",
+                codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
                 description:
-                  "Representative LAMMPS-style setup for studying interspecies mixing, tracking region occupancy, and monitoring cross-species coordination during time evolution.",
+                  "LAMMPS input file loaded from the public folder for studying interspecies mixing, region occupancy, and cross-species coordination during time evolution.",
                 defaultExpanded: false,
               },
               {
@@ -608,26 +536,10 @@ export default function LennardJonesFluid() {
               {
                 type: "codeEnd",
                 title: "LAMMPS Dense-Phase Demixing Script",
-                language: "bash",
-                code: `units lj
-                atom_style atomic
-                boundary p p p
-
-                read_data binary_fluid_dense.data
-
-                pair_style lj/cut 2.5
-                pair_coeff 1 1 1.0 1.0
-                pair_coeff 2 2 1.0 1.2
-                pair_coeff 1 2 0.6 1.0
-
-                fix 1 all nve
-
-                thermo 100
-                thermo_style custom step temp pe ke etotal press density
-
-                run 20000`,
+                language: "lammps",
+                codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
                 description:
-                  "Representative LAMMPS setup for driving the binary fluid into a dense regime where interaction contrast and packing conditions promote demixing and domain formation.",
+                  "LAMMPS input file loaded from the public folder for driving the binary fluid into a dense regime where interaction contrast and packing conditions promote demixing and domain formation.",
                 defaultExpanded: false,
               },
               {
@@ -717,29 +629,10 @@ export default function LennardJonesFluid() {
               {
                 type: "codeEnd",
                 title: "LAMMPS Bonded Molecular Architecture Script",
-                language: "bash",
-                code: `units lj
-                atom_style bond
-                boundary p p p
-
-                read_data bonded_binary_fluid.data
-
-                pair_style lj/cut 2.5
-                bond_style harmonic
-
-                pair_coeff 1 1 1.0 1.0
-                pair_coeff 2 2 0.5 1.2
-                pair_coeff 1 2 0.8 1.0
-                bond_coeff 1 30.0 1.0
-
-                fix 1 all nve
-
-                thermo 100
-                thermo_style custom step temp pe ke etotal press
-
-                run 15000`,
+                language: "lammps",
+                codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
                 description:
-                  "Representative LAMMPS setup for extending the binary-fluid model to bonded dumbbells and short polymer-like chains using harmonic bonds together with Lennard–Jones nonbonded interactions.",
+                  "LAMMPS input file loaded from the public folder for extending the binary-fluid model to bonded dumbbells and short polymer-like chains using harmonic bonds together with Lennard–Jones nonbonded interactions.",
                 defaultExpanded: false,
               },
               {
@@ -767,7 +660,7 @@ export default function LennardJonesFluid() {
               "Taken together, this series of studies establishes a coherent molecular-dynamics framework for examining how simple interaction laws generate complex emergent behavior. Beginning with structural relaxation and equilibration, the work then progresses through ensemble-dependent thermalization, interspecies mixing, dense-phase segregation, and molecular-architecture effects. Across these stages, the same binary Lennard–Jones foundation supports a broad range of physical questions, from energy redistribution and equilibration pathways to morphology evolution and connectivity-driven structural complexity.",
               "The broader value of the study lies in its layered construction. Each stage stands on its own as a focused investigation, but together they form a unified narrative about how microscopic rules shape system-scale organization. This makes the framework especially useful not only for understanding binary fluids, but also for building intuition for more advanced molecular, soft-matter, and coarse-grained simulation problems.",
             ],
-          }
+          },
         ]}
       />
     </>
