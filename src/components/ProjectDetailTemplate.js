@@ -31,6 +31,9 @@ const softPanelSurface =
 const sharedButtonClass =
   "inline-flex h-10 items-center justify-center rounded-xl border border-[rgb(var(--foreground-rgb))]/20 px-4 text-xs md:text-sm font-semibold transition";
 
+const equationSurface =
+  "bg-gradient-to-br from-zinc-200/90 via-slate-100/85 to-zinc-200/90 dark:from-zinc-950 dark:via-slate-900 dark:to-black";
+
 const SectionTitle = ({ children, subtitle, align = "left" }) => (
   <motion.div
     {...fadeUp}
@@ -42,7 +45,7 @@ const SectionTitle = ({ children, subtitle, align = "left" }) => (
     {subtitle && (
       <p
         className={`mt-2 text-sm md:text-base opacity-75 ${
-          align === "center" ? "max-w-3xl mx-auto" : "max-w-3xl"
+          align === "center" ? "max-w-3xl mx-auto" : "max-w-none"
         }`}
       >
         {subtitle}
@@ -194,7 +197,7 @@ const Separator = ({ className = "my-8 md:my-10" }) => (
 );
 
 const PanelBadge = ({ children }) => (
-  <span className="inline-flex min-h-[2.25rem] items-center justify-center rounded-md bg-zinc-800/95 px-3 py-1 text-xs sm:text-sm md:text-base lg:text-lg font-bold text-white shadow-sm">
+  <span className="inline-flex min-h-[2.25rem] items-center justify-center rounded-md border border-[rgb(var(--foreground-rgb))]/10 bg-transparent px-3 py-1 text-xs sm:text-sm md:text-base lg:text-lg font-bold shadow-sm">
     {children}
   </span>
 );
@@ -317,7 +320,7 @@ const EquationCard = ({ title, latex, description, inlineNotes = [] }) => (
       <p className="text-sm md:text-base leading-relaxed opacity-85 mb-4">{description}</p>
     )}
 
-    <div className="rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 bg-white/80 dark:bg-black/20 px-3 sm:px-4 py-5 overflow-x-auto">
+    <div className={`rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 px-3 sm:px-4 py-5 overflow-x-auto ${equationSurface}`}>
       <BlockMath math={latex} />
     </div>
 
@@ -610,7 +613,7 @@ const CompositeNarrative = ({ content = [] }) => (
         return (
           <div
             key={i}
-            className="rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 bg-black/20 dark:bg-black/25 px-4 py-6 overflow-x-auto"
+            className={`rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 px-4 py-6 overflow-x-auto ${equationSurface}`}
           >
             <BlockMath math={item.latex} />
           </div>
@@ -640,7 +643,7 @@ const CompositeEquationInline = ({ latex }) => {
   if (!latex) return null;
 
   return (
-    <div className="rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 bg-zinc-300 dark:bg-transparent px-4 md:px-5 py-5 md:py-6 overflow-x-auto">
+    <div className={`rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 px-4 md:px-5 py-5 md:py-6 overflow-x-auto ${equationSurface}`}>
       <BlockMath math={latex} />
     </div>
   );
@@ -653,7 +656,7 @@ const CompositeEquationInlineWithDefs = ({
   if (!latex) return null;
 
   return (
-    <div className="rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 bg-zinc-300 dark:bg-transparent px-4 md:px-5 py-5 md:py-6 overflow-hidden">
+    <div className={`rounded-2xl border border-[rgb(var(--foreground-rgb))]/10 px-4 md:px-5 py-5 md:py-6 overflow-hidden ${equationSurface}`}>
       <div className="grid grid-cols-1 md:grid-cols-[3fr_auto_2fr] items-center gap-4 md:gap-5">
         {/* Left: equation */}
         <div className="flex items-center justify-center overflow-x-auto">
@@ -740,6 +743,31 @@ const CompositeBlock = ({ title, subtitle, subSections = [] }) => (
             return (
               <div key={subIdx}>
                 <CompositeNarrative content={sub.content || []} />
+              </div>
+            );
+          }
+
+          if (sub.type === "findingsBlock") {
+            return (
+              <div key={subIdx}>
+                <Separator />
+                <InfoCard title={sub.title || "Findings"}>
+                  <BulletList items={sub.items || []} />
+                </InfoCard>
+              </div>
+            );
+          }
+
+          if (sub.type === "outputsBlock") {
+            return (
+              <div key={subIdx}>
+                <Separator />
+                <InfoCard
+                  title={sub.title || "Outputs"}
+                  accent={sub.accent || "from-indigo-500/15 to-cyan-500/15"}
+                >
+                  <BulletList items={sub.items || []} />
+                </InfoCard>
               </div>
             );
           }

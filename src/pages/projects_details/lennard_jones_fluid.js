@@ -1,7 +1,16 @@
 import Head from "next/head";
 import ProjectDetailTemplate from "@/components/ProjectDetailTemplate";
-import fig1 from "../../../public/gifs/aaa.gif";
-import fig2 from "../../../public/gifs/bbb.gif";
+
+import fig_temp from "../../../public/gifs/lammps___study_1/study_1___type_iso.gif";
+
+import fig1 from "../../../public/gifs/lammps___study_1/study_1___type_iso.gif";
+import fig1s from "../../../public/gifs/lammps___study_1/study_1___type_iso_s.png";
+// import fig1e from "../../../public/gifs/lammps___study_1/study_1___type_iso_e.png";
+import fig2 from "../../../public/gifs/lammps___study_1/study_1___pe_iso.gif";
+import fig2s from "../../../public/gifs/lammps___study_1/study_1___pe_iso_s.png";
+// import fig2e from "../../../public/gifs/lammps___study_1/study_1___pe_iso_e.png";
+// import fig3 from "../../../public/gifs/lammps___study_1/thermo.png";
+
 
 export default function LennardJonesFluid() {
   return (
@@ -74,37 +83,53 @@ export default function LennardJonesFluid() {
                   {
                     text: "Here, r is the separation distance, epsilon controls interaction strength, and sigma sets the characteristic particle size. Because this stage is purely a minimization step, kinetic energy is absent and the total system energy reduces to the potential contribution, E = U.",
                   },
-                  {
-                    text: "Findings: The potential energy decreases from an initially positive value to a negative plateau, indicating that the system transitions from an unstable random configuration toward a more favorable packed arrangement. Particle redistribution reduces overlap-driven repulsion and promotes energetically preferred local structure.",
-                  },
+                ],
+              },
+              {
+                type: "findingsBlock",
+                title: "Findings",
+                items: [
+                  "This study shows a clear transition from an unstable random packing to a lower-energy configuration with more physically admissible spacing.",
+                  "The potential energy drops sharply at early minimization steps as overlapping or near-overlapping particles separate, then gradually approaches a stable negative plateau.",
+                  "Structurally, the minimized state exhibits a more coherent and clustered arrangement than the initial random field, indicating that the system has relaxed away from highly repulsive contacts and into a mechanically favorable configuration.",
+                ],
+              },
+              {
+                type: "outputsBlock",
+                title: "Outputs",
+                items: [
+                  "Initial particle configuration",
+                  "Post-minimization configuration",
+                  "Potential energy versus minimization step",
+                  "Before/after structural comparison figure",
                 ],
               },
               {
                 type: "visualGrid",
                 items: [
                   {
-                    src: fig1,
-                    label: "System Definition",
+                    src: fig1s,
+                    label: "Initial Configuration",
                     description:
-                      "Initial two-species Lennard–Jones configuration in a three-dimensional periodic box.",
+                      "Randomized two-species Lennard–Jones particle distribution in a three-dimensional periodic simulation box before energy minimization.",
                   },
                   {
                     src: fig1,
-                    label: "Relaxation",
+                    label: "Post-Minimization State",
                     description:
-                      "Transition from randomized placement toward a lower-energy minimized state.",
+                      "Relaxed particle arrangement after iterative minimization, showing reduced overlap and a more mechanically favorable local structure.",
+                  },
+                  {
+                    src: fig2s,
+                    label: "Energy Evolution",
+                    description:
+                      "Representative potential-energy history versus minimization step, highlighting rapid early relaxation followed by convergence toward a stable negative plateau.",
                   },
                   {
                     src: fig2,
-                    label: "Mixing Dynamics",
+                    label: "Structural Comparison",
                     description:
-                      "Representative transient redistribution of the two particle populations during structural evolution.",
-                  },
-                  {
-                    src: fig2,
-                    label: "Dense-Phase Demixing",
-                    description:
-                      "Illustrative morphology associated with species separation in a more compact phase regime.",
+                      "Before-and-after comparison view illustrating the transition from unstable random packing to a more coherent minimized configuration.",
                   },
                 ],
               },
@@ -113,16 +138,16 @@ export default function LennardJonesFluid() {
                 title: "LAMMPS Minimization Script",
                 language: "bash",
                 code: `units lj
-atom_style atomic
-boundary p p p
+                atom_style atomic
+                boundary p p p
 
-pair_style lj/cut 2.5
-pair_coeff 1 1 1.0 1.0
-pair_coeff 2 2 0.5 3.0
+                pair_style lj/cut 2.5
+                pair_coeff 1 1 1.0 1.0
+                pair_coeff 2 2 0.5 3.0
 
-minimize 1.0e-4 1.0e-6 100 1000`,
+                minimize 1.0e-4 1.0e-6 100 1000`,
                 description:
-                  "Representative LAMMPS setup used to define reduced Lennard–Jones units, periodic boundaries, pairwise interactions, and the minimization controls for the initial structural relaxation stage.",
+                  "Representative LAMMPS setup used to define reduced Lennard–Jones units, periodic boundaries, pairwise interactions, and minimization controls for the initial structural relaxation stage.",
                 defaultExpanded: false,
               },
               {
@@ -142,6 +167,607 @@ minimize 1.0e-4 1.0e-6 100 1000`,
               },
             ],
           },
+
+          {
+            type: "compositeBlock",
+            title: "Study 2 — Equilibration Dynamics in the NVE Ensemble",
+            subtitle:
+              "Microcanonical evolution of the relaxed binary fluid and the emergence of equilibrium-like fluctuations.",
+            subSections: [
+              {
+                type: "narrative",
+                content: [
+                  {
+                    text: "The second study investigates how the relaxed binary fluid evolves under microcanonical dynamics. After minimization, the system is propagated using fix nve, which integrates Newton’s equations of motion through the velocity-Verlet scheme. With no thermostat or barostat applied, the system evolves as a closed molecular system with fixed particle number and volume. This study is designed to reveal how internal energy redistribution drives spontaneous equilibration once the particles are released into dynamical motion.",
+                  },
+                  {
+                    text: "The principal thermodynamic quantities monitored during the simulation are temperature T, potential energy U, kinetic energy K, total energy E, and pressure, with the standard energy relation",
+                  },
+                  {
+                    type: "equationInline",
+                    latex: "E = U + K.",
+                  },
+                  {
+                    text: "Because the system begins from a minimized low-energy state, the early dynamics reflect the conversion of configurational imbalance into particle motion and the gradual emergence of equilibrium-like fluctuations.",
+                  },
+                ],
+              },
+              {
+                type: "findingsBlock",
+                title: "Findings",
+                items: [
+                  "The NVE evolution reveals a characteristic equilibration pathway in which potential energy and kinetic energy adjust in opposite directions before approaching quasi-stationary behavior.",
+                  "Total energy remains approximately conserved, as expected for a closed system, while the transient dynamics gradually give way to plateau-like fluctuations.",
+                  "The study demonstrates that even a comparatively simple binary fluid can exhibit a rich equilibration process in which microscopic rearrangement, energy redistribution, and thermal stabilization occur simultaneously.",
+                ],
+              },
+              {
+                type: "outputsBlock",
+                title: "Outputs",
+                items: [
+                  "Temperature history",
+                  "Potential energy history",
+                  "Kinetic energy history",
+                  "Total energy history",
+                  "Pressure history",
+                  "Annotated equilibration window separating transient and stabilized regimes",
+                ],
+              },
+              {
+                type: "visualGrid",
+                items: [
+                  {
+                    src: fig_temp,
+                    label: "Temperature History",
+                    description:
+                      "Representative temperature evolution showing the rise from the minimized initial state toward a fluctuating equilibrium-like regime.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Energy Redistribution",
+                    description:
+                      "Comparison of potential and kinetic energy histories illustrating compensating trends during transient equilibration.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Total Energy Conservation",
+                    description:
+                      "Total energy response under NVE dynamics, demonstrating approximate conservation with bounded numerical fluctuation.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Equilibration Window",
+                    description:
+                      "Annotated time interval separating early transient relaxation from the later stabilized fluctuation regime.",
+                  },
+                ],
+              },
+              {
+                type: "codeEnd",
+                title: "LAMMPS NVE Dynamics Script",
+                language: "bash",
+                code: `units lj
+                atom_style atomic
+                boundary p p p
+
+                read_data binary_fluid_minimized.data
+
+                pair_style lj/cut 2.5
+                pair_coeff 1 1 1.0 1.0
+                pair_coeff 2 2 0.5 3.0
+
+                velocity all create 1.0 12345
+                fix 1 all nve
+
+                thermo 100
+                thermo_style custom step temp pe ke etotal press
+
+                run 10000`,
+                description:
+                  "Representative LAMMPS setup for propagating the minimized configuration in the microcanonical ensemble while tracking temperature, potential energy, kinetic energy, total energy, and pressure.",
+                defaultExpanded: false,
+              },
+              {
+                type: "linksRow",
+                items: [
+                  {
+                    label: "LAMMPS Tutorial Page",
+                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+                    kind: "external",
+                  },
+                  {
+                    label: "Tutorial 1 Input Files",
+                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+                    kind: "github",
+                  },
+                ],
+              },
+            ],
+          },
+
+          {
+            type: "compositeBlock",
+            title: "Study 3 — Thermostat-Controlled Thermalization and Ensemble Comparison",
+            subtitle:
+              "Comparison of natural NVE equilibration and externally regulated thermalization under thermostat control.",
+            subSections: [
+              {
+                type: "narrative",
+                content: [
+                  {
+                    text: "The third study introduces explicit temperature control and compares natural equilibration with externally regulated thermalization. Here, the system retains the same underlying particle interactions but is coupled to a Langevin thermostat with prescribed target temperature. This imposes friction and stochastic forcing on the particles, steering the fluid toward a controlled thermal state rather than allowing temperature to emerge solely from internal redistribution.",
+                  },
+                  {
+                    text: "The central purpose of this study is comparative: it contrasts the response of the same binary fluid under two distinct ensemble treatments. In the NVE case, equilibration is governed by internal energy exchange alone. Under thermostat control, the kinetic state is actively driven toward a target temperature, altering both the transient pathway and the eventual fluctuation structure. The same energetic bookkeeping remains in place,",
+                  },
+                  {
+                    type: "equationInline",
+                    latex: "E = U + K,",
+                  },
+                  {
+                    text: "but the physical route to equilibrium differs substantially once external thermal control is introduced.",
+                  },
+                ],
+              },
+              {
+                type: "findingsBlock",
+                title: "Findings",
+                items: [
+                  "The thermostat-controlled system reaches its target thermal state much more rapidly than the unforced NVE case.",
+                  "Temperature rises from near zero and stabilizes around the prescribed value, while the potential and kinetic energy trajectories evolve toward new steady behaviors characteristic of a regulated ensemble.",
+                  "This comparison highlights a key methodological and physical point: equilibrium is not defined only by the final state, but also by the pathway through which that state is reached.",
+                  "The study therefore clarifies how ensemble choice influences transient dynamics, fluctuation character, and apparent thermal stability.",
+                ],
+              },
+              {
+                type: "outputsBlock",
+                title: "Outputs",
+                items: [
+                  "NVE versus thermostat-controlled temperature comparison",
+                  "NVE versus thermostat-controlled U(t), K(t), and E(t)",
+                  "Ensemble comparison summary figure",
+                  "Thermalization-rate comparison",
+                  "Optional comparison of alternative thermostat strategies",
+                ],
+              },
+              {
+                type: "visualGrid",
+                items: [
+                  {
+                    src: fig_temp,
+                    label: "Temperature Comparison",
+                    description:
+                      "Comparison of temperature histories for the unforced NVE evolution and the thermostat-controlled case, showing faster convergence under external regulation.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Energy Trajectories",
+                    description:
+                      "Side-by-side evolution of potential, kinetic, and total energy under the two ensemble treatments, highlighting different transient pathways.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Thermalization Rate",
+                    description:
+                      "Representative comparison of how rapidly each ensemble approaches its characteristic steady fluctuation regime.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Ensemble Summary",
+                    description:
+                      "Condensed comparison figure emphasizing how thermostat control modifies equilibration pathway, fluctuation structure, and apparent stability.",
+                  },
+                ],
+              },
+              {
+                type: "codeEnd",
+                title: "LAMMPS Thermostat-Controlled Dynamics Script",
+                language: "bash",
+                code: `units lj
+                atom_style atomic
+                boundary p p p
+
+                read_data binary_fluid_minimized.data
+
+                pair_style lj/cut 2.5
+                pair_coeff 1 1 1.0 1.0
+                pair_coeff 2 2 0.5 3.0
+
+                velocity all create 1.0 24680
+                fix 1 all nve
+                fix 2 all langevin 1.0 1.0 1.0 98765
+
+                thermo 100
+                thermo_style custom step temp pe ke etotal press
+
+                run 10000`,
+                description:
+                  "Representative LAMMPS setup for comparing externally regulated thermalization against natural NVE equilibration using a Langevin thermostat superimposed on particle dynamics.",
+                defaultExpanded: false,
+              },
+              {
+                type: "linksRow",
+                items: [
+                  {
+                    label: "LAMMPS Tutorial Page",
+                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+                    kind: "external",
+                  },
+                  {
+                    label: "Tutorial 1 Input Files",
+                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+                    kind: "github",
+                  },
+                ],
+              },
+            ],
+          },
+
+          {
+            type: "compositeBlock",
+            title: "Study 4 — Mixing Dynamics and Interspecies Coordination Evolution",
+            subtitle:
+              "Tracking macroscopic species redistribution and microscopic cross-species contact during binary-fluid mixing.",
+            subSections: [
+              {
+                type: "narrative",
+                content: [
+                  {
+                    text: "The fourth study shifts attention from bulk equilibration to interspecies transport and spatial redistribution. The two particle populations are initially placed in different regions of the domain, creating a distinct compositional separation at the start of the simulation. The subsequent evolution is then used to examine how mixing develops over time, both in terms of large-scale migration and particle-level contact between species.",
+                  },
+                  {
+                    text: "Two complementary diagnostics are used. The first is region occupancy, defined through the number of particles of each type inside a selected inner cylinder,",
+                  },
+                  {
+                    type: "equationInlineWithDefs",
+                    latex:
+                      "N_{1,\\mathrm{in}} = \\text{count of type-1 atoms in the inner region}, \\qquad N_{2,\\mathrm{in}} = \\text{count of type-2 atoms in the inner region}.",
+                    definitions: [
+                      { latex: "N_{1,\\mathrm{in}}", text: " = number of type-1 atoms in the selected inner region" },
+                      { latex: "N_{2,\\mathrm{in}}", text: " = number of type-2 atoms in the selected inner region" },
+                    ],
+                  },
+                  {
+                    text: "The second is the cross-species coordination number,",
+                  },
+                  {
+                    type: "equationInline",
+                    latex:
+                      "C_{1-2} = \\langle \\text{number of type-2 neighbors surrounding a type-1 atom within a cutoff} \\rangle.",
+                  },
+                  {
+                    text: "Together, these quantities connect macroscopic redistribution to microscopic interspecies contact, allowing the study to capture both geometric and interaction-level aspects of mixing.",
+                  },
+                ],
+              },
+              {
+                type: "findingsBlock",
+                title: "Findings",
+                items: [
+                  "The initially separated populations progressively interpenetrate, producing visible morphological mixing and a measurable rise in interspecies coordination.",
+                  "As the simulation advances, region-based occupancy changes confirm migration across the initial interface, while the coordination number increases, indicating a higher frequency of local contact between unlike particles.",
+                  "This study establishes a clear connection between evolving morphology and quantitative transport-like metrics, making it one of the strongest demonstrations of emergent behavior within the binary-fluid framework.",
+                ],
+              },
+              {
+                type: "outputsBlock",
+                title: "Outputs",
+                items: [
+                  "Early-, mid-, and late-time mixing snapshots",
+                  "N_{1,in}(t) history",
+                  "N_{2,in}(t) history",
+                  "Cross-species coordination history C_{1-2}(t)",
+                  "Combined morphology-and-metrics figure",
+                ],
+              },
+              {
+                type: "visualGrid",
+                items: [
+                  {
+                    src: fig_temp,
+                    label: "Early-Time Mixing",
+                    description:
+                      "Initial stage of compositional interpenetration showing the first breakdown of the separated species arrangement.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Intermediate Redistribution",
+                    description:
+                      "Mid-time morphology illustrating increased migration across the original interface and growing cross-species contact.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Coordination Evolution",
+                    description:
+                      "Representative history of cross-species coordination, highlighting the progressive increase in local unlike-particle interactions.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Morphology-Metrics Summary",
+                    description:
+                      "Combined comparison linking visual mixing progression with occupancy and coordination diagnostics over time.",
+                  },
+                ],
+              },
+              {
+                type: "codeEnd",
+                title: "LAMMPS Mixing and Coordination Script",
+                language: "bash",
+                code: `units lj
+                atom_style atomic
+                boundary p p p
+
+                read_data binary_fluid_separated.data
+
+                pair_style lj/cut 2.5
+                pair_coeff 1 1 1.0 1.0
+                pair_coeff 2 2 0.5 3.0
+                pair_coeff 1 2 1.0 1.0
+
+                fix 1 all nve
+
+                region inner cylinder z 0.0 0.0 5.0 INF INF units box
+                group type1 type 1
+                group type2 type 2
+                group type1in region inner
+                group type2in region inner
+
+                compute coord12 type1 coord/atom cutoff 1.5 group type2
+                thermo 100
+                thermo_style custom step temp pe ke etotal press
+
+                run 10000`,
+                description:
+                  "Representative LAMMPS-style setup for studying interspecies mixing, tracking region occupancy, and monitoring cross-species coordination during time evolution.",
+                defaultExpanded: false,
+              },
+              {
+                type: "linksRow",
+                items: [
+                  {
+                    label: "LAMMPS Tutorial Page",
+                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+                    kind: "external",
+                  },
+                  {
+                    label: "Tutorial 1 Input Files",
+                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+                    kind: "github",
+                  },
+                ],
+              },
+            ],
+          },
+
+          {
+            type: "compositeBlock",
+            title: "Study 5 — Dense-Phase Demixing and Morphological Separation",
+            subtitle:
+              "Transition from transport-dominated mixing to segregation-dominated domain formation in a dense binary-fluid regime.",
+            subSections: [
+              {
+                type: "narrative",
+                content: [
+                  {
+                    text: "The fifth study explores conditions under which the same binary-fluid framework moves away from mixing and instead develops phase segregation. By adjusting density, size contrast, and interaction conditions, the system is driven toward a dense regime in which the two particle populations no longer remain interpenetrated but instead reorganize into distinct compositional domains. This transforms the problem from a mixing study into a phase-behavior study.",
+                  },
+                  {
+                    text: "The significance of this study lies in showing that qualitative system behavior can be reversed through parameter selection. A regime that supports progressive interspecies contact under one set of conditions can produce domain-scale separation under another. In that sense, the study probes the sensitivity of mesoscale morphology to particle-scale interaction design and system density. The same Lennard–Jones framework is retained, but the resulting physics shifts from transport-dominated mixing to segregation-dominated structure formation.",
+                  },
+                ],
+              },
+              {
+                type: "findingsBlock",
+                title: "Findings",
+                items: [
+                  "Under dense-phase conditions, the system evolves toward visible compositional separation and the emergence of larger demixed regions.",
+                  "Instead of increasing interspecies interpenetration, the fluid organizes into domains with clearer species identity and sharper spatial boundaries.",
+                  "This study demonstrates that morphology in binary particle systems is not fixed by composition alone; it is highly responsive to the interplay among density, size, and interaction contrast.",
+                ],
+              },
+              {
+                type: "outputsBlock",
+                title: "Outputs",
+                items: [
+                  "Time-resolved demixing snapshots",
+                  "Domain-growth visualization",
+                  "Density or box-relaxation history",
+                  "Optional composition profile across the domain",
+                  "Mixed-regime versus demixed-regime comparison figure",
+                ],
+              },
+              {
+                type: "visualGrid",
+                items: [
+                  {
+                    src: fig_temp,
+                    label: "Early Demixing",
+                    description:
+                      "Initial development of compositional separation as the dense binary fluid begins to reorganize into distinct species-rich regions.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Domain Growth",
+                    description:
+                      "Intermediate-to-late-time morphology showing the growth and sharpening of demixed domains within the simulation box.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Density Relaxation",
+                    description:
+                      "Representative density or box-relaxation history associated with the transition into the dense segregated regime.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Mixed vs Demixed Comparison",
+                    description:
+                      "Side-by-side comparison highlighting the morphological contrast between a mixing-supporting regime and a demixing-supporting regime.",
+                  },
+                ],
+              },
+              {
+                type: "codeEnd",
+                title: "LAMMPS Dense-Phase Demixing Script",
+                language: "bash",
+                code: `units lj
+                atom_style atomic
+                boundary p p p
+
+                read_data binary_fluid_dense.data
+
+                pair_style lj/cut 2.5
+                pair_coeff 1 1 1.0 1.0
+                pair_coeff 2 2 1.0 1.2
+                pair_coeff 1 2 0.6 1.0
+
+                fix 1 all nve
+
+                thermo 100
+                thermo_style custom step temp pe ke etotal press density
+
+                run 20000`,
+                description:
+                  "Representative LAMMPS setup for driving the binary fluid into a dense regime where interaction contrast and packing conditions promote demixing and domain formation.",
+                defaultExpanded: false,
+              },
+              {
+                type: "linksRow",
+                items: [
+                  {
+                    label: "LAMMPS Tutorial Page",
+                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+                    kind: "external",
+                  },
+                  {
+                    label: "Tutorial 1 Input Files",
+                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+                    kind: "github",
+                  },
+                ],
+              },
+            ],
+          },
+
+          {
+            type: "compositeBlock",
+            title: "Study 6 — From Atomic Fluids to Bonded Molecular Architectures",
+            subtitle:
+              "Extension of the binary-fluid framework from monatomic particles to bonded dumbbells and short polymer-like chains.",
+            subSections: [
+              {
+                type: "narrative",
+                content: [
+                  {
+                    text: "The final study extends the binary-fluid model beyond atomic particles by introducing bonded molecular structures. In this formulation, selected particles are linked into dumbbell-like pairs and then into short polymer-like chains. This seemingly simple extension significantly broadens the physical scope of the system: connectivity becomes a governing variable alongside mass, size, and nonbonded attraction.",
+                  },
+                  {
+                    text: "The addition of bonding introduces restricted relative motion, anisotropic local geometry, and chain-level conformational effects that are absent in a monatomic fluid. As a result, the study begins to bridge the gap between simple particle mixtures and coarse-grained molecular matter. What emerges is no longer only a binary atomic suspension, but a platform for examining how structure, motion, and morphology are altered once particles are organized into connected architectures.",
+                  },
+                ],
+              },
+              {
+                type: "findingsBlock",
+                title: "Findings",
+                items: [
+                  "The introduction of bonded dumbbells and short polymeric structures produces richer configurational behavior than the baseline atomic case.",
+                  "Connectivity modifies how particles occupy space, how they orient locally, and how they interact with the surrounding medium.",
+                  "Compared with the original binary fluid, the bonded systems display greater structural complexity and open the door to studying shape effects, conformational behavior, and molecule-environment coupling within the same general simulation framework.",
+                ],
+              },
+              {
+                type: "outputsBlock",
+                title: "Outputs",
+                items: [
+                  "Dumbbell-structure configuration image",
+                  "Polymer-structure configuration image",
+                  "Trajectory renderings of bonded systems in the surrounding fluid",
+                  "Optional bond-length or angle statistics",
+                  "Comparison figure: atomic particles versus dumbbells versus polymer chains",
+                ],
+              },
+              {
+                type: "visualGrid",
+                items: [
+                  {
+                    src: fig_temp,
+                    label: "Dumbbell Configuration",
+                    description:
+                      "Representative bonded-pair structure showing how particle connectivity changes local geometry relative to the atomic-fluid baseline.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Polymer-Like Chains",
+                    description:
+                      "Short bonded chain architecture illustrating the transition from isolated particles to connected molecular structures.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Bonded-System Trajectories",
+                    description:
+                      "Trajectory rendering of bonded particles evolving within the surrounding fluid, highlighting restricted motion and conformational effects.",
+                  },
+                  {
+                    src: fig_temp,
+                    label: "Architecture Comparison",
+                    description:
+                      "Comparative view contrasting atomic particles, dumbbells, and polymer-like chains within the same coarse-grained simulation framework.",
+                  },
+                ],
+              },
+              {
+                type: "codeEnd",
+                title: "LAMMPS Bonded Molecular Architecture Script",
+                language: "bash",
+                code: `units lj
+                atom_style bond
+                boundary p p p
+
+                read_data bonded_binary_fluid.data
+
+                pair_style lj/cut 2.5
+                bond_style harmonic
+
+                pair_coeff 1 1 1.0 1.0
+                pair_coeff 2 2 0.5 1.2
+                pair_coeff 1 2 0.8 1.0
+                bond_coeff 1 30.0 1.0
+
+                fix 1 all nve
+
+                thermo 100
+                thermo_style custom step temp pe ke etotal press
+
+                run 15000`,
+                description:
+                  "Representative LAMMPS setup for extending the binary-fluid model to bonded dumbbells and short polymer-like chains using harmonic bonds together with Lennard–Jones nonbonded interactions.",
+                defaultExpanded: false,
+              },
+              {
+                type: "linksRow",
+                items: [
+                  {
+                    label: "LAMMPS Tutorial Page",
+                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+                    kind: "external",
+                  },
+                  {
+                    label: "Tutorial 1 Input Files",
+                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+                    kind: "github",
+                  },
+                ],
+              },
+            ],
+          },
+
+          {
+            type: "infoCard",
+            title: "Closing Summary",
+            paragraphs: [
+              "Taken together, this series of studies establishes a coherent molecular-dynamics framework for examining how simple interaction laws generate complex emergent behavior. Beginning with structural relaxation and equilibration, the work then progresses through ensemble-dependent thermalization, interspecies mixing, dense-phase segregation, and molecular-architecture effects. Across these stages, the same binary Lennard–Jones foundation supports a broad range of physical questions, from energy redistribution and equilibration pathways to morphology evolution and connectivity-driven structural complexity.",
+              "The broader value of the study lies in its layered construction. Each stage stands on its own as a focused investigation, but together they form a unified narrative about how microscopic rules shape system-scale organization. This makes the framework especially useful not only for understanding binary fluids, but also for building intuition for more advanced molecular, soft-matter, and coarse-grained simulation problems.",
+            ],
+          }
         ]}
       />
     </>
