@@ -1,0 +1,118 @@
+# ======================================================================
+# STUDY 2
+# Equilibration Dynamics in the NVE Ensemble of a Binary LJ Fluid
+# ======================================================================
+
+# Create the frames folder only if it does not already exist.
+shell mkdir frames
+
+# ----------------------------------------------------------------------
+# 1) INITIALIZATION
+# ----------------------------------------------------------------------
+
+# Use Lennard-Jones reduced units.
+units lj
+
+# Run a three-dimensional simulation.
+dimension 3
+
+# Use atomic particles with no bonds.
+atom_style atomic
+
+# Apply periodic boundaries in x, y, and z.
+boundary p p p
+
+
+# ----------------------------------------------------------------------
+# 2) SYSTEM DEFINITION
+# ----------------------------------------------------------------------
+
+# Define the Lennard-Jones pair style before reading the data file.
+pair_style lj/cut 4.0
+
+# Use geometric mixing for cross interactions.
+pair_modify mix geometric
+
+# Read the minimized configuration generated in Study 1.
+read_data study_1___minimized.data
+
+
+# ----------------------------------------------------------------------
+# 3) SETTINGS
+# ----------------------------------------------------------------------
+
+# Assign initial velocities from a Gaussian distribution at reduced temperature 1.0.
+velocity all create 1.0 4928459 rot no dist gaussian
+
+# Use a timestep suitable for LJ dynamics.
+timestep 0.005
+
+# Integrate the equations of motion in the NVE ensemble.
+fix fix_nve all nve
+
+
+# ----------------------------------------------------------------------
+# 4) MONITORING
+# ----------------------------------------------------------------------
+
+# Compute per-atom potential energy for trajectory output.
+compute peatom all pe/atom
+
+# Compute per-atom kinetic energy for trajectory output.
+compute keatom all ke/atom
+
+# Compute per-atom stress tensor components for trajectory output.
+compute stressatom all stress/atom NULL
+
+# Compute per-atom speed magnitude for trajectory output.
+variable vmag atom sqrt(vx*vx+vy*vy+vz*vz)
+
+# Compute per-atom total energy contribution for trajectory output.
+variable etotatom atom c_peatom + c_keatom
+
+# Compute per-atom hydrostatic stress-like scalar.
+variable p_hydro atom -(c_stressatom[1]+c_stressatom[2]+c_stressatom[3])/3.0
+
+# Print thermo output every 50 timesteps.
+thermo 50
+
+# Select thermo columns.
+thermo_style custom step temp etotal pe ke press
+
+# Dump PNG frames every 300 timesteps.
+dump dump_png all image 300 frames/frame_*.png type type size 1200 1200 zoom 1.45 shiny 0.60 fsaa yes view 70 25 box yes 0.025 axes no 0.0 0.0 center s 0.5 0.5 0.5
+
+# Set PNG frame colors and atom diameters.
+dump_modify dump_png pad 4 backcolor white boxcolor gray acolor 1 blue acolor 2 red adiam 1 1.6 adiam 2 4.8
+
+# Dump the transient trajectory for post-processing.
+dump dump_traj all custom 30 study_2___transient.lammpstrj id type mass x y z vx vy vz v_vmag fx fy fz c_peatom c_keatom v_etotatom c_stressatom[1] c_stressatom[2] c_stressatom[3] c_stressatom[4] c_stressatom[5] c_stressatom[6] v_p_hydro
+
+# Sort atoms by ID in the trajectory output.
+dump_modify dump_traj sort id
+
+# Dump the transient trajectory in XYZ format for visualization/post-processing.
+dump dump_xyz all xyz 30 study_2___transient.xyz
+
+
+# ----------------------------------------------------------------------
+# 5) RUN
+# ----------------------------------------------------------------------
+
+# Run the NVE molecular dynamics simulation.
+run 15000
+
+# Stop PNG frame dumping.
+undump dump_png
+
+# Stop transient trajectory dumping.
+undump dump_traj
+
+# Stop XYZ trajectory dumping.
+undump dump_xyz
+
+# Remove the NVE time integrator.
+unfix fix_nve
+
+# Write the final equilibrated configuration.
+write_data study_2___equilibrated.data

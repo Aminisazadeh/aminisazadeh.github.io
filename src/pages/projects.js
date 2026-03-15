@@ -6,10 +6,10 @@ import Image from "next/image"
 import Link from "next/link"
 import React from 'react'
 import { motion } from "framer-motion"
-import proj_1 from "../../public/gifs/advanced_electronics.png"
-import proj_2 from "../../public/gifs/energy_sustainability.png"
-import proj_3 from "../../public/gifs/physics_fundamentals.png"
-import proj_4 from "../../public/gifs/machine_learning.png"
+import proj_1 from "../../public/images/advanced_electronics.png"
+import proj_2 from "../../public/images/energy_sustainability.png"
+import proj_3 from "../../public/images/physics_fundamentals.png"
+import proj_4 from "../../public/images/machine_learning.png"
 import TransitionEffect from "@/components/TransitionEffect"
 
 

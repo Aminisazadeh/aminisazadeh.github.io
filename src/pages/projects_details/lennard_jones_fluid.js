@@ -3,13 +3,26 @@ import ProjectDetailTemplate from "@/components/ProjectDetailTemplate";
 
 import fig_temp from "../../../public/gifs/lammps___study_1/study_1___type_iso.gif";
 
-import fig1 from "../../../public/gifs/lammps___study_1/study_1___type_iso.gif";
-import fig1s from "../../../public/gifs/lammps___study_1/study_1___type_iso_s.png";
-// import fig1e from "../../../public/gifs/lammps___study_1/study_1___type_iso_e.png";
-import fig2 from "../../../public/gifs/lammps___study_1/study_1___pe_iso.gif";
-import fig2s from "../../../public/gifs/lammps___study_1/study_1___pe_iso_s.png";
-// import fig2e from "../../../public/gifs/lammps___study_1/study_1___pe_iso_e.png";
-// import fig3 from "../../../public/gifs/lammps___study_1/thermo.png";
+import fig1_type from "../../../public/gifs/lammps___study_1/study_1___type_iso.gif";
+import fig1_type_s from "../../../public/gifs/lammps___study_1/study_1___type_iso_s.png";
+// import fig1_type_e from "../../../public/gifs/lammps___study_1/study_1___type_iso_e.png";
+import fig1_pe from "../../../public/gifs/lammps___study_1/study_1___pe_iso.gif";
+import fig1_pe_s from "../../../public/gifs/lammps___study_1/study_1___pe_iso_s.png";
+// import fig1_pe_e from "../../../public/gifs/lammps___study_1/study_1___pe_iso_e.png";
+
+// import fig2_type from "../../../public/gifs/lammps___study_2/study_2___type_iso.gif";
+// import fig2_type_s from "../../../public/gifs/lammps___study_2/study_2___type_iso_s.png";
+import fig2_type_e from "../../../public/gifs/lammps___study_2/study_2___type_iso_e.png";
+// import fig2_pe from "../../../public/gifs/lammps___study_2/study_2___pe_iso.gif";
+// import fig2_pe_s from "../../../public/gifs/lammps___study_2/study_2___pe_iso_s.png";
+import fig2_pe_e from "../../../public/gifs/lammps___study_2/study_2___pe_iso_e.png";
+// import fig2_ke from "../../../public/gifs/lammps___study_2/study_2___ke_iso.gif";
+// import fig2_ke_s from "../../../public/gifs/lammps___study_2/study_2___ke_iso_s.png";
+import fig2_ke_e from "../../../public/gifs/lammps___study_2/study_2___ke_iso_e.png";
+// import fig2_vmeg from "../../../public/gifs/lammps___study_2/study_2___vmeg_iso.gif";
+// import fig2_vmeg_s from "../../../public/gifs/lammps___study_2/study_2___vmeg_iso_s.png";
+import fig2_vmeg_e from "../../../public/gifs/lammps___study_2/study_2___vmeg_iso_e.png";
+
 
 export default function LennardJonesFluid() {
   return (
@@ -98,22 +111,22 @@ export default function LennardJonesFluid() {
                 "type": "visualGrid",
                 "items": [
                   {
-                    "src": fig1s,
+                    "src": fig1_type_s,
                     "label": "Initial Configuration",
                     "description": "Randomized two-species Lennard–Jones particle distribution in a three-dimensional periodic simulation box before energy minimization."
                   },
                   {
-                    "src": fig1,
+                    "src": fig1_type,
                     "label": "Minimization Dynamics",
                     "description": "Animation of particle motion during the iterative minimization process, illustrating the structural relaxation from an unstable state."
                   },
                   {
-                    "src": fig2s,
+                    "src": fig1_pe_s,
                     "label": "Initial Potential Energy",
                     "description": "Visualization of the initial potential energy distribution across the system before the start of the relaxation process."
                   },
                   {
-                    "src": fig2,
+                    "src": fig1_pe,
                     "label": "Potential Energy Evolution",
                     "description": "Animation showing the change in potential energy during minimization, highlighting the transition toward a stable negative plateau."
                   }
@@ -156,7 +169,7 @@ export default function LennardJonesFluid() {
                 type: "narrative",
                 content: [
                   {
-                    text: "The second study investigates how the relaxed binary fluid evolves under microcanonical dynamics. After minimization, the system is propagated using fix nve, which integrates Newton’s equations of motion through the velocity-Verlet scheme. With no thermostat or barostat applied, the system evolves as a closed molecular system with fixed particle number and volume. This study is designed to reveal how internal energy redistribution drives spontaneous equilibration once the particles are released into dynamical motion.",
+                    text: "The second study investigates how the relaxed binary fluid evolves under microcanonical dynamics. After minimization, the system is propagated using \"fix NVE\", which integrates Newton’s equations of motion through the velocity-Verlet scheme. With no thermostat or barostat applied, the system evolves as a closed molecular system with fixed particle number and volume. This study is designed to reveal how internal energy redistribution drives spontaneous equilibration once the particles are released into dynamical motion.",
                   },
                   {
                     text: "The principal thermodynamic quantities monitored during the simulation are temperature T, potential energy U, kinetic energy K, total energy E, and pressure, with the standard energy relation",
@@ -195,28 +208,28 @@ export default function LennardJonesFluid() {
                 type: "visualGrid",
                 items: [
                   {
-                    src: fig_temp,
-                    label: "Temperature History",
+                    src: fig2_type_e,
+                    label: "Final Atomic Configuration",
                     description:
-                      "Representative temperature evolution showing the rise from the minimized initial state toward a fluctuating equilibrium-like regime.",
+                      "Final spatial arrangement of the binary Lennard–Jones atoms after NVE evolution, showing the equilibrated configuration reached from the minimized initial state.",
                   },
                   {
-                    src: fig_temp,
-                    label: "Energy Redistribution",
+                    src: fig2_vmeg_e,
+                    label: "Final Velocity Magnitude Distribution",
                     description:
-                      "Comparison of potential and kinetic energy histories illustrating compensating trends during transient equilibration.",
+                      "Particle-scale distribution of velocity magnitude at the end of the NVE simulation, illustrating the spread of atomic speeds established during equilibration.",
                   },
                   {
-                    src: fig_temp,
-                    label: "Total Energy Conservation",
+                    src: fig2_pe_e,
+                    label: "Final Potential Energy Distribution",
                     description:
-                      "Total energy response under NVE dynamics, demonstrating approximate conservation with bounded numerical fluctuation.",
+                      "Final spatial distribution of per-atom potential energy, highlighting how local interaction environments vary across the equilibrated binary fluid.",
                   },
                   {
-                    src: fig_temp,
-                    label: "Equilibration Window",
+                    src: fig2_ke_e,
+                    label: "Final Kinetic Energy Distribution",
                     description:
-                      "Annotated time interval separating early transient relaxation from the later stabilized fluctuation regime.",
+                      "Final distribution of per-atom kinetic energy, showing the nonuniform microscopic energy content associated with ongoing equilibrium-like thermal fluctuations.",
                   },
                 ],
               },
@@ -224,26 +237,26 @@ export default function LennardJonesFluid() {
                 type: "codeEnd",
                 title: "LAMMPS NVE Dynamics Script",
                 language: "lammps",
-                codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
+                codePath: "/codes/lammps/lennard_jones_fluid/study_2___nve.lmp",
                 description:
                   "LAMMPS input file loaded from the public folder for propagating the minimized configuration in the microcanonical ensemble while tracking thermodynamic evolution.",
                 defaultExpanded: false,
               },
-              {
-                type: "linksRow",
-                items: [
-                  {
-                    label: "LAMMPS Tutorial Page",
-                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
-                    kind: "external",
-                  },
-                  {
-                    label: "Tutorial 1 Input Files",
-                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
-                    kind: "github",
-                  },
-                ],
-              },
+              // {
+              //   type: "linksRow",
+              //   items: [
+              //     {
+              //       label: "LAMMPS Tutorial Page",
+              //       href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+              //       kind: "external",
+              //     },
+              //     {
+              //       label: "Tutorial 1 Input Files",
+              //       href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+              //       kind: "github",
+              //     },
+              //   ],
+              // },
             ],
           },
 

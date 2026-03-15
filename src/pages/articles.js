@@ -5,24 +5,21 @@ import Link from 'next/link'
 import Image from 'next/image'
 import React, { useRef, useState } from 'react'
 import { motion, useMotionValue } from 'framer-motion'
-import article1 from "../../public/images/articles/pagination component in reactjs.jpg"
-import article2 from "../../public/images/articles/create loading screen in react js.jpg"
-import article3 from "../../public/images/articles/create modal component in react using react portals.png"
 
-import art_h1 from "../../public/gifs/aps_dfd_poster_1.svg"
-import art_h2 from "../../public/gifs/aps_dfd_poster_2.svg"
-import art_h3 from "../../public/gifs/asme_fedsm.png"
 
-import art_1 from "../../public/gifs/2024__asme_fedsm__rheological__frontPage.png"
-import art_2 from "../../public/gifs/2024__aps_dfd__algorithmic__frontPage.png"
-import art_3 from "../../public/gifs/2024__aps_dfd__tms__frontPage.png"
-import art_4 from "../../public/gifs/2024__asme_imece__dynamics__frontPage.png"
-import art_5 from "../../public/gifs/2023__aps_dfd__impact__frontPage.png"
-import art_6 from "../../public/gifs/2023__rser__thermalLegacy__frontPage.png"
-import art_7 from "../../public/gifs/2023__rser__globalTrends__frontPage.png"
-import art_8 from "../../public/gifs/2022__iracc__coolingTech__frontPage.png"
-import art_9 from "../../public/gifs/2022__energy__experimental__frontPage.png"
-import art_10 from "../../public/gifs/2021__energyBuilding__detecting__frontPage.png"
+import art_h1 from "../../public/images/projects/aps_dfd_poster_1.svg"
+import art_h3 from "../../public/images/projects/asme_fedsm.png"
+
+import art_1 from "../../public/images/projects/2024__asme_fedsm__rheological__frontPage.png"
+import art_2 from "../../public/images/projects/2024__aps_dfd__algorithmic__frontPage.png"
+import art_3 from "../../public/images/projects/2024__aps_dfd__tms__frontPage.png"
+import art_4 from "../../public/images/projects/2024__asme_imece__dynamics__frontPage.png"
+import art_5 from "../../public/images/projects/2023__aps_dfd__impact__frontPage.png"
+import art_6 from "../../public/images/projects/2023__rser__thermalLegacy__frontPage.png"
+import art_7 from "../../public/images/projects/2023__rser__globalTrends__frontPage.png"
+import art_8 from "../../public/images/projects/2022__iracc__coolingTech__frontPage.png"
+import art_9 from "../../public/images/projects/2022__energy__experimental__frontPage.png"
+import art_10 from "../../public/images/projects/2021__energyBuilding__detecting__frontPage.png"
 import TransitionEffect from '@/components/TransitionEffect'
 
 
