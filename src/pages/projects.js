@@ -243,7 +243,7 @@ const projects = () => {
                   "HPC",
                   "Git/GitHub"
                 ]}
-                link="/projects_details/tms_microchannel"
+                link="/"
                 github="/"
                 type="Research Division"
               />

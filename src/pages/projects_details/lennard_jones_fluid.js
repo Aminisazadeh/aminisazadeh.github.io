@@ -1,27 +1,27 @@
 import Head from "next/head";
 import ProjectDetailTemplate from "@/components/ProjectDetailTemplate";
 
-import fig_temp from "../../../public/gifs/lammps___study_1/study_1___type_iso.gif";
+import fig_temp from "../../../public/codes/lammps/lennard_jones_fluid/study_1___type_iso.gif";
 
-import fig1_type from "../../../public/gifs/lammps___study_1/study_1___type_iso.gif";
-import fig1_type_s from "../../../public/gifs/lammps___study_1/study_1___type_iso_s.png";
-// import fig1_type_e from "../../../public/gifs/lammps___study_1/study_1___type_iso_e.png";
-import fig1_pe from "../../../public/gifs/lammps___study_1/study_1___pe_iso.gif";
-import fig1_pe_s from "../../../public/gifs/lammps___study_1/study_1___pe_iso_s.png";
-// import fig1_pe_e from "../../../public/gifs/lammps___study_1/study_1___pe_iso_e.png";
+import fig1_type from "../../../public/codes/lammps/lennard_jones_fluid/study_1___type_iso.gif";
+import fig1_type_s from "../../../public/codes/lammps/lennard_jones_fluid/study_1___type_iso_s.png";
+import fig1_pe from "../../../public/codes/lammps/lennard_jones_fluid/study_1___pe_iso.gif";
+import fig1_pe_s from "../../../public/codes/lammps/lennard_jones_fluid/study_1___pe_iso_s.png";
 
-// import fig2_type from "../../../public/gifs/lammps___study_2/study_2___type_iso.gif";
-// import fig2_type_s from "../../../public/gifs/lammps___study_2/study_2___type_iso_s.png";
-import fig2_type_e from "../../../public/gifs/lammps___study_2/study_2___type_iso_e.png";
-// import fig2_pe from "../../../public/gifs/lammps___study_2/study_2___pe_iso.gif";
-// import fig2_pe_s from "../../../public/gifs/lammps___study_2/study_2___pe_iso_s.png";
-import fig2_pe_e from "../../../public/gifs/lammps___study_2/study_2___pe_iso_e.png";
-// import fig2_ke from "../../../public/gifs/lammps___study_2/study_2___ke_iso.gif";
-// import fig2_ke_s from "../../../public/gifs/lammps___study_2/study_2___ke_iso_s.png";
-import fig2_ke_e from "../../../public/gifs/lammps___study_2/study_2___ke_iso_e.png";
-// import fig2_vmeg from "../../../public/gifs/lammps___study_2/study_2___vmeg_iso.gif";
-// import fig2_vmeg_s from "../../../public/gifs/lammps___study_2/study_2___vmeg_iso_s.png";
-import fig2_vmeg_e from "../../../public/gifs/lammps___study_2/study_2___vmeg_iso_e.png";
+import fig2_type_e from "../../../public/codes/lammps/lennard_jones_fluid/study_2___type_iso_e.png";
+import fig2_pe_e from "../../../public/codes/lammps/lennard_jones_fluid/study_2___pe_iso_e.png";
+import fig2_ke_e from "../../../public/codes/lammps/lennard_jones_fluid/study_2___ke_iso_e.png";
+import fig2_vmeg_e from "../../../public/codes/lammps/lennard_jones_fluid/study_2___vmeg_iso_e.png";
+
+import fig3_type from "../../../public/codes/lammps/lennard_jones_fluid/study_3___type_iso.gif";
+import fig3_pe from "../../../public/codes/lammps/lennard_jones_fluid/study_3___pe_iso.gif";
+import fig3_ke from "../../../public/codes/lammps/lennard_jones_fluid/study_3___ke_iso.gif";
+import fig3_vmeg from "../../../public/codes/lammps/lennard_jones_fluid/study_3___vmeg_iso.gif";
+
+import fig4_type from "../../../public/codes/lammps/lennard_jones_fluid/study_4___type_xy.gif";
+import fig4_type_s from "../../../public/codes/lammps/lennard_jones_fluid/study_4___type_xy_s.png";
+import fig4_type_m from "../../../public/codes/lammps/lennard_jones_fluid/study_4___type_xy_m.png";
+import fig4_type_e from "../../../public/codes/lammps/lennard_jones_fluid/study_4___type_xy_e.png";
 
 
 export default function LennardJonesFluid() {
@@ -309,28 +309,28 @@ export default function LennardJonesFluid() {
                 type: "visualGrid",
                 items: [
                   {
-                    src: fig_temp,
-                    label: "Temperature Comparison",
+                    src: fig3_type,
+                    label: "Atomic Motion During Thermalization",
                     description:
-                      "Comparison of temperature histories for the unforced NVE evolution and the thermostat-controlled case, showing faster convergence under external regulation.",
+                      "Animation of atom movements during the thermostat-controlled simulation, illustrating how the binary Lennard–Jones system evolves structurally while approaching the target thermal state.",
                   },
                   {
-                    src: fig_temp,
-                    label: "Energy Trajectories",
+                    src: fig3_vmeg,
+                    label: "Velocity Magnitude Dynamics",
                     description:
-                      "Side-by-side evolution of potential, kinetic, and total energy under the two ensemble treatments, highlighting different transient pathways.",
+                      "Time-dependent distribution of particle velocity magnitude during thermalization, showing how atomic speed fluctuations develop under external temperature regulation.",
                   },
                   {
-                    src: fig_temp,
-                    label: "Thermalization Rate",
+                    src: fig3_pe,
+                    label: "Potential Energy Dynamics",
                     description:
-                      "Representative comparison of how rapidly each ensemble approaches its characteristic steady fluctuation regime.",
+                      "Time-dependent evolution of the per-atom potential energy field, highlighting changes in local interaction environments as the regulated system approaches steady behavior.",
                   },
                   {
-                    src: fig_temp,
-                    label: "Ensemble Summary",
+                    src: fig3_ke,
+                    label: "Kinetic Energy Dynamics",
                     description:
-                      "Condensed comparison figure emphasizing how thermostat control modifies equilibration pathway, fluctuation structure, and apparent stability.",
+                      "Time-dependent evolution of per-atom kinetic energy, showing how microscopic motion intensifies and stabilizes as thermostat control drives the system toward the prescribed temperature.",
                   },
                 ],
               },
@@ -338,26 +338,26 @@ export default function LennardJonesFluid() {
                 type: "codeEnd",
                 title: "LAMMPS Thermostat-Controlled Dynamics Script",
                 language: "lammps",
-                codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
+                codePath: "/codes/lammps/lennard_jones_fluid/study_3___langevinThermostat.lmp",
                 description:
                   "LAMMPS input file loaded from the public folder for comparing externally regulated thermalization against natural NVE equilibration.",
                 defaultExpanded: false,
               },
-              {
-                type: "linksRow",
-                items: [
-                  {
-                    label: "LAMMPS Tutorial Page",
-                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
-                    kind: "external",
-                  },
-                  {
-                    label: "Tutorial 1 Input Files",
-                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
-                    kind: "github",
-                  },
-                ],
-              },
+              // {
+              //   type: "linksRow",
+              //   items: [
+              //     {
+              //       label: "LAMMPS Tutorial Page",
+              //       href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+              //       kind: "external",
+              //     },
+              //     {
+              //       label: "Tutorial 1 Input Files",
+              //       href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+              //       kind: "github",
+              //     },
+              //   ],
+              // },
             ],
           },
 
@@ -428,28 +428,28 @@ export default function LennardJonesFluid() {
                 type: "visualGrid",
                 items: [
                   {
-                    src: fig_temp,
-                    label: "Early-Time Mixing",
+                    src: fig4_type_s,
+                    label: "Initial Top-View Atomic Configuration",
                     description:
-                      "Initial stage of compositional interpenetration showing the first breakdown of the separated species arrangement.",
+                      "Top-view snapshot of the initially de-mixed binary Lennard–Jones system, where the two species begin in a spatially separated configuration before mixing starts.",
                   },
                   {
-                    src: fig_temp,
-                    label: "Intermediate Redistribution",
+                    src: fig4_type_m,
+                    label: "Mid-Simulation Atomic Configuration",
                     description:
-                      "Mid-time morphology illustrating increased migration across the original interface and growing cross-species contact.",
+                      "Top-view snapshot taken during the intermediate stage of the simulation, showing partial interpenetration of the two species as mixing develops from the initially separated state.",
                   },
                   {
-                    src: fig_temp,
-                    label: "Coordination Evolution",
+                    src: fig4_type_e,
+                    label: "Final-Simulation Atomic Configuration",
                     description:
-                      "Representative history of cross-species coordination, highlighting the progressive increase in local unlike-particle interactions.",
+                      "Top-view snapshot of the binary fluid near the end of the simulation, illustrating the substantially mixed morphology reached after continued interspecies redistribution.",
                   },
                   {
-                    src: fig_temp,
-                    label: "Morphology-Metrics Summary",
+                    src: fig4_type,
+                    label: "Atomic Mixing Dynamics",
                     description:
-                      "Combined comparison linking visual mixing progression with occupancy and coordination diagnostics over time.",
+                      "Animation of atom movements during the mixing process, showing the time-dependent evolution of the binary system from its initial de-mixed configuration toward a more intermixed state.",
                   },
                 ],
               },
@@ -457,26 +457,26 @@ export default function LennardJonesFluid() {
                 type: "codeEnd",
                 title: "LAMMPS Mixing and Coordination Script",
                 language: "lammps",
-                codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
+                codePath: "/codes/lammps/lennard_jones_fluid/study_4___mixing.lmp",
                 description:
                   "LAMMPS input file loaded from the public folder for studying interspecies mixing, region occupancy, and cross-species coordination during time evolution.",
                 defaultExpanded: false,
               },
-              {
-                type: "linksRow",
-                items: [
-                  {
-                    label: "LAMMPS Tutorial Page",
-                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
-                    kind: "external",
-                  },
-                  {
-                    label: "Tutorial 1 Input Files",
-                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
-                    kind: "github",
-                  },
-                ],
-              },
+              // {
+              //   type: "linksRow",
+              //   items: [
+              //     {
+              //       label: "LAMMPS Tutorial Page",
+              //       href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+              //       kind: "external",
+              //     },
+              //     {
+              //       label: "Tutorial 1 Input Files",
+              //       href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+              //       kind: "github",
+              //     },
+              //   ],
+              // },
             ],
           },
 
@@ -555,116 +555,116 @@ export default function LennardJonesFluid() {
                   "LAMMPS input file loaded from the public folder for driving the binary fluid into a dense regime where interaction contrast and packing conditions promote demixing and domain formation.",
                 defaultExpanded: false,
               },
-              {
-                type: "linksRow",
-                items: [
-                  {
-                    label: "LAMMPS Tutorial Page",
-                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
-                    kind: "external",
-                  },
-                  {
-                    label: "Tutorial 1 Input Files",
-                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
-                    kind: "github",
-                  },
-                ],
-              },
+              // {
+              //   type: "linksRow",
+              //   items: [
+              //     {
+              //       label: "LAMMPS Tutorial Page",
+              //       href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+              //       kind: "external",
+              //     },
+              //     {
+              //       label: "Tutorial 1 Input Files",
+              //       href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+              //       kind: "github",
+              //     },
+              //   ],
+              // },
             ],
           },
 
-          {
-            type: "compositeBlock",
-            title: "Study 6 — From Atomic Fluids to Bonded Molecular Architectures",
-            subtitle:
-              "Extension of the binary-fluid framework from monatomic particles to bonded dumbbells and short polymer-like chains.",
-            subSections: [
-              {
-                type: "narrative",
-                content: [
-                  {
-                    text: "The final study extends the binary-fluid model beyond atomic particles by introducing bonded molecular structures. In this formulation, selected particles are linked into dumbbell-like pairs and then into short polymer-like chains. This seemingly simple extension significantly broadens the physical scope of the system: connectivity becomes a governing variable alongside mass, size, and nonbonded attraction.",
-                  },
-                  {
-                    text: "The addition of bonding introduces restricted relative motion, anisotropic local geometry, and chain-level conformational effects that are absent in a monatomic fluid. As a result, the study begins to bridge the gap between simple particle mixtures and coarse-grained molecular matter. What emerges is no longer only a binary atomic suspension, but a platform for examining how structure, motion, and morphology are altered once particles are organized into connected architectures.",
-                  },
-                ],
-              },
-              {
-                type: "findingsBlock",
-                title: "Findings",
-                items: [
-                  "The introduction of bonded dumbbells and short polymeric structures produces richer configurational behavior than the baseline atomic case.",
-                  "Connectivity modifies how particles occupy space, how they orient locally, and how they interact with the surrounding medium.",
-                  "Compared with the original binary fluid, the bonded systems display greater structural complexity and open the door to studying shape effects, conformational behavior, and molecule-environment coupling within the same general simulation framework.",
-                ],
-              },
-              {
-                type: "outputsBlock",
-                title: "Outputs",
-                items: [
-                  "Dumbbell-structure configuration image",
-                  "Polymer-structure configuration image",
-                  "Trajectory renderings of bonded systems in the surrounding fluid",
-                  "Optional bond-length or angle statistics",
-                  "Comparison figure: atomic particles versus dumbbells versus polymer chains",
-                ],
-              },
-              {
-                type: "visualGrid",
-                items: [
-                  {
-                    src: fig_temp,
-                    label: "Dumbbell Configuration",
-                    description:
-                      "Representative bonded-pair structure showing how particle connectivity changes local geometry relative to the atomic-fluid baseline.",
-                  },
-                  {
-                    src: fig_temp,
-                    label: "Polymer-Like Chains",
-                    description:
-                      "Short bonded chain architecture illustrating the transition from isolated particles to connected molecular structures.",
-                  },
-                  {
-                    src: fig_temp,
-                    label: "Bonded-System Trajectories",
-                    description:
-                      "Trajectory rendering of bonded particles evolving within the surrounding fluid, highlighting restricted motion and conformational effects.",
-                  },
-                  {
-                    src: fig_temp,
-                    label: "Architecture Comparison",
-                    description:
-                      "Comparative view contrasting atomic particles, dumbbells, and polymer-like chains within the same coarse-grained simulation framework.",
-                  },
-                ],
-              },
-              {
-                type: "codeEnd",
-                title: "LAMMPS Bonded Molecular Architecture Script",
-                language: "lammps",
-                codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
-                description:
-                  "LAMMPS input file loaded from the public folder for extending the binary-fluid model to bonded dumbbells and short polymer-like chains using harmonic bonds together with Lennard–Jones nonbonded interactions.",
-                defaultExpanded: false,
-              },
-              {
-                type: "linksRow",
-                items: [
-                  {
-                    label: "LAMMPS Tutorial Page",
-                    href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
-                    kind: "external",
-                  },
-                  {
-                    label: "Tutorial 1 Input Files",
-                    href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
-                    kind: "github",
-                  },
-                ],
-              },
-            ],
-          },
+          // {
+          //   type: "compositeBlock",
+          //   title: "Study 6 — From Atomic Fluids to Bonded Molecular Architectures",
+          //   subtitle:
+          //     "Extension of the binary-fluid framework from monatomic particles to bonded dumbbells and short polymer-like chains.",
+          //   subSections: [
+          //     {
+          //       type: "narrative",
+          //       content: [
+          //         {
+          //           text: "The final study extends the binary-fluid model beyond atomic particles by introducing bonded molecular structures. In this formulation, selected particles are linked into dumbbell-like pairs and then into short polymer-like chains. This seemingly simple extension significantly broadens the physical scope of the system: connectivity becomes a governing variable alongside mass, size, and nonbonded attraction.",
+          //         },
+          //         {
+          //           text: "The addition of bonding introduces restricted relative motion, anisotropic local geometry, and chain-level conformational effects that are absent in a monatomic fluid. As a result, the study begins to bridge the gap between simple particle mixtures and coarse-grained molecular matter. What emerges is no longer only a binary atomic suspension, but a platform for examining how structure, motion, and morphology are altered once particles are organized into connected architectures.",
+          //         },
+          //       ],
+          //     },
+          //     {
+          //       type: "findingsBlock",
+          //       title: "Findings",
+          //       items: [
+          //         "The introduction of bonded dumbbells and short polymeric structures produces richer configurational behavior than the baseline atomic case.",
+          //         "Connectivity modifies how particles occupy space, how they orient locally, and how they interact with the surrounding medium.",
+          //         "Compared with the original binary fluid, the bonded systems display greater structural complexity and open the door to studying shape effects, conformational behavior, and molecule-environment coupling within the same general simulation framework.",
+          //       ],
+          //     },
+          //     {
+          //       type: "outputsBlock",
+          //       title: "Outputs",
+          //       items: [
+          //         "Dumbbell-structure configuration image",
+          //         "Polymer-structure configuration image",
+          //         "Trajectory renderings of bonded systems in the surrounding fluid",
+          //         "Optional bond-length or angle statistics",
+          //         "Comparison figure: atomic particles versus dumbbells versus polymer chains",
+          //       ],
+          //     },
+          //     {
+          //       type: "visualGrid",
+          //       items: [
+          //         {
+          //           src: fig_temp,
+          //           label: "Dumbbell Configuration",
+          //           description:
+          //             "Representative bonded-pair structure showing how particle connectivity changes local geometry relative to the atomic-fluid baseline.",
+          //         },
+          //         {
+          //           src: fig_temp,
+          //           label: "Polymer-Like Chains",
+          //           description:
+          //             "Short bonded chain architecture illustrating the transition from isolated particles to connected molecular structures.",
+          //         },
+          //         {
+          //           src: fig_temp,
+          //           label: "Bonded-System Trajectories",
+          //           description:
+          //             "Trajectory rendering of bonded particles evolving within the surrounding fluid, highlighting restricted motion and conformational effects.",
+          //         },
+          //         {
+          //           src: fig_temp,
+          //           label: "Architecture Comparison",
+          //           description:
+          //             "Comparative view contrasting atomic particles, dumbbells, and polymer-like chains within the same coarse-grained simulation framework.",
+          //         },
+          //       ],
+          //     },
+          //     {
+          //       type: "codeEnd",
+          //       title: "LAMMPS Bonded Molecular Architecture Script",
+          //       language: "lammps",
+          //       codePath: "/codes/lammps/lennard_jones_fluid/study_1___minimization.lmp",
+          //       description:
+          //         "LAMMPS input file loaded from the public folder for extending the binary-fluid model to bonded dumbbells and short polymer-like chains using harmonic bonds together with Lennard–Jones nonbonded interactions.",
+          //       defaultExpanded: false,
+          //     },
+          //     {
+          //       type: "linksRow",
+          //       items: [
+          //         {
+          //           label: "LAMMPS Tutorial Page",
+          //           href: "https://lammpstutorials.github.io/sphinx/build/html/tutorial1/lennard-jones-fluid.html#",
+          //           kind: "external",
+          //         },
+          //         {
+          //           label: "Tutorial 1 Input Files",
+          //           href: "https://github.com/lammpstutorials/lammpstutorials-inputs/tree/main/tutorial1",
+          //           kind: "github",
+          //         },
+          //       ],
+          //     },
+          //   ],
+          // },
 
           {
             type: "infoCard",
