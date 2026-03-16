@@ -1,0 +1,241 @@
+# ======================================================================
+# STUDY 5
+# Dense-Phase Demixing and Morphological Separation of a Binary LJ Fluid
+# ======================================================================
+
+# Create the frames folder only if it does not already exist.
+shell mkdir frames
+
+# ----------------------------------------------------------------------
+# 1) INITIALIZATION
+# ----------------------------------------------------------------------
+
+# Use Lennard-Jones reduced units.
+units lj
+
+# Run a three-dimensional simulation.
+dimension 3
+
+# Use atomic particles with no bonds.
+atom_style atomic
+
+# Apply periodic boundaries in x, y, and z.
+boundary p p p
+
+
+# ----------------------------------------------------------------------
+# 2) SYSTEM DEFINITION
+# ----------------------------------------------------------------------
+
+# Define the cubic simulation region.
+region simbox block -20 20 -20 20 -20 20
+
+# Create a simulation box with two atom types.
+create_box 2 simbox
+
+# Randomly create 8000 atoms of type 1.
+create_atoms 1 random 8000 341341 simbox
+
+# Randomly create 8000 atoms of type 2.
+create_atoms 2 random 8000 127569 simbox
+
+# Assign the mass of atom type 1.
+mass 1 1.0
+
+# Assign the mass of atom type 2.
+mass 2 1.0
+
+
+# ----------------------------------------------------------------------
+# 3) INTERACTION SETTINGS
+# ----------------------------------------------------------------------
+
+# Use a Lennard-Jones pair style with cutoff radius 2.5.
+pair_style lj/cut 2.5
+
+# Set the Lennard-Jones parameters for type 1 with itself.
+# Strong self-attraction promotes type-1 clustering.
+pair_coeff 1 1 5.0 1.0
+
+# Set the Lennard-Jones parameters for type 2 with itself.
+# Strong self-attraction promotes type-2 clustering.
+pair_coeff 2 2 5.0 1.0
+
+# Set the Lennard-Jones parameters for unlike interactions.
+# Very weak cross-attraction promotes demixing.
+pair_coeff 1 2 0.05 1.0
+
+# Define groups for each atom type.
+group grp_t1 type 1
+group grp_t2 type 2
+
+
+# ----------------------------------------------------------------------
+# 4) MINIMIZATION-STAGE MONITORING
+# ----------------------------------------------------------------------
+
+# Compute per-atom potential energy for trajectory output.
+compute peatom all pe/atom
+
+# Compute per-atom speed magnitude for trajectory output.
+variable vmag atom sqrt(vx*vx+vy*vy+vz*vz)
+
+# Print thermo output every minimizer iteration.
+thermo 20
+
+# Select thermo columns for the minimization stage.
+thermo_style custom step temp pe ke etotal press vol density atoms
+
+# Dump PNG frames every 100 minimizer iterations.
+# dump dump_png_min all image 100 frames/frame_min_*.png type type size 1200 1200 zoom 1.45 shiny 0.60 fsaa yes view 70 25 box yes 0.025 axes no 0.0 0.0 center s 0.5 0.5 0.5
+
+# Set PNG frame colors and atom diameters.
+# dump_modify dump_png_min pad 4 backcolor white boxcolor gray acolor 1 blue acolor 2 red adiam 1 1.4 adiam 2 1.4
+
+# Dump the transient minimization trajectory for post-processing.
+dump dump_traj_min all custom 20 study_5___minimization.lammpstrj id type mass x y z vx vy vz v_vmag fx fy fz c_peatom
+
+# Sort atoms by ID in the minimization trajectory output.
+dump_modify dump_traj_min sort id
+
+# Dump the minimization trajectory in XYZ format for visualization/post-processing.
+dump dump_xyz_min all xyz 20 study_5___minimization.xyz
+
+
+# ----------------------------------------------------------------------
+# 5) MINIMIZATION
+# ----------------------------------------------------------------------
+
+# Use the conjugate-gradient minimizer.
+min_style cg
+
+# Run the energy minimization to remove severe overlaps.
+minimize 1.0e-4 1.0e-6 1000 10000
+
+# Stop PNG frame dumping for the minimization stage.
+# undump dump_png_min
+
+# Stop transient minimization trajectory dumping.
+undump dump_traj_min
+
+# Stop XYZ minimization trajectory dumping.
+undump dump_xyz_min
+
+# Write the minimized configuration.
+write_data study_5___minimized.data
+
+# Reset the timestep counter before the production simulation.
+reset_timestep 0
+
+
+# ----------------------------------------------------------------------
+# 6) PRODUCTION-MD SETTINGS
+# ----------------------------------------------------------------------
+
+# Assign initial velocities from a Gaussian distribution at reduced temperature 1.0.
+velocity all create 1.0 4928459 mom yes rot yes dist gaussian
+
+# Use a timestep suitable for LJ dynamics.
+timestep 0.005
+
+# Integrate the equations of motion with isotropic pressure control.
+# This allows the simulation box to adjust as dense domains develop.
+fix fix_nph all nph iso 1.0 1.0 1.0
+
+# Apply a Langevin thermostat to maintain the target temperature.
+fix fix_langevin all langevin 1.0 1.0 0.1 1530917 zero yes
+
+
+# ----------------------------------------------------------------------
+# 7) PRODUCTION-MD MONITORING
+# ----------------------------------------------------------------------
+
+# Compute per-atom kinetic energy for trajectory output.
+compute keatom all ke/atom
+
+# Compute per-atom stress tensor components for trajectory output.
+compute stressatom all stress/atom NULL
+
+# Compute the number of type-2 neighbors around each type-1 atom
+# within the specified cutoff distance.
+compute coor12 grp_t1 coord/atom cutoff 2.0 group grp_t2
+
+# Compute the average type-1/type-2 coordination number.
+compute sumcoor12 grp_t1 reduce ave c_coor12
+
+# Compute per-atom total energy contribution for trajectory output.
+variable etotatom atom "c_peatom + c_keatom"
+
+# Compute per-atom hydrostatic stress-like scalar.
+variable p_hydro atom -(c_stressatom[1]+c_stressatom[2]+c_stressatom[3])/3.0
+
+# Define the instantaneous box volume.
+variable boxvol equal vol
+
+# Define the instantaneous number density.
+variable rho equal density
+
+# Print thermo output every 1000 timesteps.
+thermo 1000
+
+# Select thermo columns, including demixing diagnostics.
+thermo_style custom step temp pe ke etotal press vol density c_sumcoor12
+
+# Save the average cross-species coordination history to file.
+fix fix_coord all ave/time 100 10 1000 c_sumcoor12 file study_5___coordination12.txt mode scalar
+
+# Save the box volume history to file.
+fix fix_vol all ave/time 100 10 1000 v_boxvol file study_5___volume.txt mode scalar
+
+# Save the density history to file.
+fix fix_rho all ave/time 100 10 1000 v_rho file study_5___density.txt mode scalar
+
+# Dump PNG frames every 5000 timesteps.
+dump dump_png all image 5000 frames/frame_*.png type type size 1200 1200 zoom 1.45 shiny 0.60 fsaa yes view 70 25 box yes 0.025 axes no 0.0 0.0 center s 0.5 0.5 0.5
+
+# Set PNG frame colors and atom diameters.
+dump_modify dump_png pad 5 backcolor white boxcolor gray acolor 1 blue acolor 2 red adiam 1 1.4 adiam 2 1.4
+
+# Dump the transient production trajectory for post-processing.
+dump dump_traj all custom 250 study_5___transient.lammpstrj id type mass x y z vx vy vz v_vmag fx fy fz c_peatom c_keatom v_etotatom c_stressatom[1] c_stressatom[2] c_stressatom[3] c_stressatom[4] c_stressatom[5] c_stressatom[6] v_p_hydro
+
+# Sort atoms by ID in the trajectory output.
+dump_modify dump_traj sort id
+
+# Dump the transient production trajectory in XYZ format for visualization/post-processing.
+dump dump_xyz all xyz 500 study_5___transient.xyz
+
+
+# ----------------------------------------------------------------------
+# 8) RUN
+# ----------------------------------------------------------------------
+
+# Run the demixing simulation.
+run 100000
+
+# Stop PNG frame dumping.
+undump dump_png
+
+# Stop transient trajectory dumping.
+undump dump_traj
+
+# Stop XYZ trajectory dumping.
+undump dump_xyz
+
+# Stop coordination-history output.
+unfix fix_coord
+
+# Stop box-volume-history output.
+unfix fix_vol
+
+# Stop density-history output.
+unfix fix_rho
+
+# Remove the Langevin thermostat.
+unfix fix_langevin
+
+# Remove the NPH integrator.
+unfix fix_nph
+
+# Write the final demixed configuration.
+write_data study_5___demixed.data
